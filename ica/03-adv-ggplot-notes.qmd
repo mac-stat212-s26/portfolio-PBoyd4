@@ -63,7 +63,9 @@ Examine the [NYTimes 2015 Temperature Visualization (html)](https://www.nytimes.
 
 - Relate the intro paragraph: "Scientists declared that 2015 was Earth’s hottest year on record..." to the *design* of the visualization.  In particular, based on the intro paragraph,
   - What key message/claim does NYTimes want readers to be able to explore? 
+    NYTimes wants readers to explore the claim that 2015 was the Earth's hottest year on record.
   - How did this goal inform what information is displayed in the visualization?
+  This goal contributed to the addition of multiple different features being displayed on the visualization. Their is a comparison for 2015 temperatures compared to average temperatures at that time and arrows that point out if record highs occurred on that day of the year.
 
 **Aesthetic Mapping** 
 
@@ -76,6 +78,8 @@ Examine the [NYTimes 2015 Temperature Visualization (html)](https://www.nytimes.
 ## Exercise 2
 
 Navigate the **Geoms** section of the [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/) to find a `geom` that corresponds to the visual elements in the temperature plot.  Using both the small thumbnail visuals on the right and the names of the `geom`'s, brainstorm some possibilities for `geom`'s you might use to recreate the temperature visualization.
+
+geom_col() and geom_bar() are the only ones that seem like they could possibly create this visualization
 
 
 ::: {.callout-note title="Navigating Documentation / Reference Pages"}
@@ -124,7 +128,9 @@ Look at the [`geom_linerange` documentation page](https://ggplot2.tidyverse.org/
 
 ```{r weather_plot_temp_records}
 ggplot(weather) +
+    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +
     theme_classic()
+
 ```
 
 ::: {.callout-tip title="Keyboard Shortcuts"}
@@ -147,6 +153,14 @@ In your visualization, also display the usual temperatures (`NormalLow` and `Nor
 
 ```{r weather_plot_temp_all}
 
+ggplot(weather) +
+    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +
+    theme_classic() +
+  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),
+                 color = "#C8B8BA") +
+  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),
+                 color = "#A90248")
+
 
 ```
 
@@ -160,10 +174,26 @@ If you'd like finer control of the width of these lines/rectangles, check out th
 
 Recreate the visual demarcations of the months by adding vertical lines separating the months.  Brainstorm how we might draw those vertical lines. What `geom` might we use?  What subset of the data might we use in that `geom` layer to draw lines only at the month divisions? 
 
-```{r }
+```{r}
 
+month_lengths <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+
+month_ends <- cumsum(month_lengths)
+month_starts <- c(1, head(month_ends, -1) + 1)
+
+month_centers <- (month_starts + month_ends) / 2
+
+ggplot(weather) +
+    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +
+  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),
+                 color = "#C8B8BA") +
+  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),
+                 color = "#A90248") +
+  geom_vline(xintercept = month_starts) +
+theme_classic()
 
 ```
+
 
 
 
@@ -182,6 +212,35 @@ Try to figuring out this new challenge using search engines and LLMs:
 
 - **LLMs.** Use [ChatGPT](https://chat.openai.com/) or [Gemini](https://gemini.google.com/) with prompts that will most efficiently get you the desired results. Record the chat prompts used and output given. Evaluate the output. Do you fully understand the code generated? How can you tell that the generated code is correct?
 
+ChatGpt prompt: "This is where I'm at now: "ggplot(weather) + geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') + theme_classic() + geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = "#C8B8BA") + geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = "#A90248")" next step: Change the x-axis labels so that the month names display in the center of each month's slice of the plot. ::: {.callout-tip title="Month Names"} R has built-in variables called month.abb and month.name that contain abbreviated and full month names."
+
+
+
+```{r }
+
+month_lengths <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+
+month_ends <- cumsum(month_lengths)
+month_starts <- c(1, head(month_ends, -1) + 1)
+
+month_centers <- (month_starts + month_ends) / 2
+
+ggplot(weather) +
+  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), 
+                 color = '#ECEBE3') +
+  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),
+                 color = "#C8B8BA") +
+  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),
+                 color = "#A90248") +
+  scale_x_continuous(
+    breaks = month_centers,
+    labels = month.abb
+  ) +
+theme_classic()
+
+```
+
+
 
 ## Exercise 6 
 
@@ -195,6 +254,30 @@ Create a precipitation plot that looks like the following.  Note that
 
 
 ```{r weather_plot_precip}
+
+monthly_labels <- weather |>
+  group_by(Month) |>
+  summarise(
+    x_pos = max(dateInYear),
+    y_pos = max(CulmPrec),
+    .groups = "drop"
+  )
+
+ggplot(weather, aes(x = dateInYear)) + 
+  geom_area(aes(y = CulmPrec, group = Month),
+            fill = "#C8B8BA") +
+  geom_line(aes(x = dateInYear, y = CulmPrec, group = Month),
+            color = "#32a3d8", 
+            linewidth = 0.3) +
+  geom_point(data = subset(weather, RecordP == 1), aes(x = dateInYear,y = CulmPrec),
+             shape = 25, fill = "black", color = "black", size = 2) +
+  geom_text(data = monthly_labels, aes(x = x_pos, y = y_pos, label = y_pos), 
+            size = 3, vjust = -0.5)
+  
+  
+  
+  
+
 
 ```
 ## Done!
