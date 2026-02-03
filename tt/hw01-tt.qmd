@@ -1,0 +1,93 @@
+---
+title: "Homework 01"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+## Data Import
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+
+tuesdata <- tidytuesdayR::tt_load(2026, week = 4)
+
+companies <- tuesdata$companies
+legal_nature <- tuesdata$legal_nature
+qualifications <- tuesdata$qualifications
+size <- tuesdata$size
+
+```
+
+## Introduction
+
+Brazil’s CNPJ registry provides detailed information on the legal structure, size, and declared share capital of registered firms, offering insight into how businesses are organized economically. Given this data set, I will explore the research question: How does declared share capital differ by company size and legal status?
+
+```{r}
+
+companies |> 
+  group_by(company_size) |> 
+  summarize(median_capital = median(capital_stock)) |> 
+  mutate(company_size = factor(company_size,
+                               levels = c("micro-enterprise",
+                                          "small-enterprise",
+                                          "other"))) |>
+  ggplot(aes(x = company_size, y = median_capital)) +
+  geom_col() + 
+  labs(title = "Median Declared Share Capital by Company Size", 
+       y = "Median Declared Share Capital(BRL)",
+       x = "Company Size") 
+
+top_legal_nature <- companies |> 
+  count(legal_nature, sort = TRUE) |> 
+  slice_head(n = 4)
+
+companies_top_legal <- companies |> 
+  semi_join(top_legal_nature, by = "legal_nature")
+
+companies_top_legal |> 
+  group_by(legal_nature) |> 
+  summarize(median_capital = median(capital_stock)) |>
+  ggplot(aes(x = legal_nature, y = median_capital)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Median Declared Share Capital by Company Legal Nature", 
+       x = "Median Declared Share Capital",
+       y = "Legal Nature") 
+
+```
+## Discussion
+
+Examining median declared share capital reveals clear differences across both company size and legal nature. Unsurprisingly, median capital increases with size. Firms classified as “other” tend to have substantially higher median capital than micro and small enterprises, suggesting greater financial resources and higher barriers to entry. At the same time, legal structure matters independently of size: privately held corporations exhibit far higher median capital than limited liability companies, sole proprietorships, or silent partnerships. Together, these patterns indicate that both firm size and institutional form are strongly associated with capital intensity in Brazilian businesses. But, does the tendency for median capital stock to increase with company size prevail when you look at it within each each legal nature on its own.
+
+
+```{r}
+companies_top_legal |>
+  group_by(company_size, legal_nature) |>
+  summarize(median_capital = median(capital_stock), .groups = "drop") |>
+  mutate(company_size = factor(company_size,
+                               levels = c("micro-enterprise",
+                                          "small-enterprise",
+                                          "other"))) |>
+  ggplot(aes(x = company_size, y = median_capital)) +
+  geom_col() +
+  facet_wrap(~ legal_nature) +
+  labs(
+    title = "Median Declared Share Capital by Company Size and Legal Nature",
+    x = "Company Size",
+    y = "Median Declared Share Capital (BRL)"
+  ) +
+  theme_minimal()
+```
+
+## Conclusion
+
+This plot makes one pattern very clear: legal structure matters more than size. Privately held corporations have much higher median share capital than every other type at the micro-enterprise and "other" level, suggesting that incorporation is strongly tied to raising larger amounts of money. Sole proprietorships stay relatively low-capital across all sizes, but do stick with the trend of median capital increasing with size. LLCs and silent partnerships fall somewhere in the middle, with modest increases in capital for larger firms but nothing close to corporations. Overall, while capital tends to rise slightly with company size within each group, the differences in capital between legal types are much larger, indicating that how a business is organized legally has a stronger impact on share capital than how the size of the company.
