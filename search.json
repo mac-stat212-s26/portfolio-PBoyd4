@@ -43,6 +43,61 @@
     ]
   },
   {
+    "objectID": "tt/hw01-tt.html",
+    "href": "tt/hw01-tt.html",
+    "title": "Homework 01",
+    "section": "",
+    "text": "TidyTuesday Section\nExplore the week’s TidyTuesday challenge. Develop a research question, then answer it through a short data story with effective visualization(s). Provide sufficient background for readers to grasp your narrative.",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
+    "objectID": "tt/hw01-tt.html#data-import",
+    "href": "tt/hw01-tt.html#data-import",
+    "title": "Homework 01",
+    "section": "Data Import",
+    "text": "Data Import\n\nCodelibrary(ggplot2)\nlibrary(dplyr)\n\ntuesdata &lt;- tidytuesdayR::tt_load(2026, week = 4)\n\ncompanies &lt;- tuesdata$companies\nlegal_nature &lt;- tuesdata$legal_nature\nqualifications &lt;- tuesdata$qualifications\nsize &lt;- tuesdata$size",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
+    "objectID": "tt/hw01-tt.html#introduction",
+    "href": "tt/hw01-tt.html#introduction",
+    "title": "Homework 01",
+    "section": "Introduction",
+    "text": "Introduction\nBrazil’s CNPJ registry provides detailed information on the legal structure, size, and declared share capital of registered firms, offering insight into how businesses are organized economically. Given this data set, I will explore the research question: How does declared share capital differ by company size and legal status?\n\nCodecompanies |&gt; \n  group_by(company_size) |&gt; \n  summarize(median_capital = median(capital_stock)) |&gt; \n  mutate(company_size = factor(company_size,\n                               levels = c(\"micro-enterprise\",\n                                          \"small-enterprise\",\n                                          \"other\"))) |&gt;\n  ggplot(aes(x = company_size, y = median_capital)) +\n  geom_col() + \n  labs(title = \"Median Declared Share Capital by Company Size\", \n       y = \"Median Declared Share Capital(BRL)\",\n       x = \"Company Size\") \n\n\n\n\n\n\nCodetop_legal_nature &lt;- companies |&gt; \n  count(legal_nature, sort = TRUE) |&gt; \n  slice_head(n = 4)\n\ncompanies_top_legal &lt;- companies |&gt; \n  semi_join(top_legal_nature, by = \"legal_nature\")\n\ncompanies_top_legal |&gt; \n  group_by(legal_nature) |&gt; \n  summarize(median_capital = median(capital_stock)) |&gt;\n  ggplot(aes(x = legal_nature, y = median_capital)) +\n  geom_col() +\n  coord_flip() +\n  labs(title = \"Median Declared Share Capital by Company Legal Nature\", \n       x = \"Median Declared Share Capital\",\n       y = \"Legal Nature\")",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
+    "objectID": "tt/hw01-tt.html#discussion",
+    "href": "tt/hw01-tt.html#discussion",
+    "title": "Homework 01",
+    "section": "Discussion",
+    "text": "Discussion\nExamining median declared share capital reveals clear differences across both company size and legal nature. Unsurprisingly, median capital increases with size. Firms classified as “other” tend to have substantially higher median capital than micro and small enterprises, suggesting greater financial resources and higher barriers to entry. At the same time, legal structure matters independently of size: privately held corporations exhibit far higher median capital than limited liability companies, sole proprietorships, or silent partnerships. Together, these patterns indicate that both firm size and institutional form are strongly associated with capital intensity in Brazilian businesses. But, does the tendency for median capital stock to increase with company size prevail when you look at it within each each legal nature on its own.\n\nCodecompanies_top_legal |&gt;\n  group_by(company_size, legal_nature) |&gt;\n  summarize(median_capital = median(capital_stock), .groups = \"drop\") |&gt;\n  mutate(company_size = factor(company_size,\n                               levels = c(\"micro-enterprise\",\n                                          \"small-enterprise\",\n                                          \"other\"))) |&gt;\n  ggplot(aes(x = company_size, y = median_capital)) +\n  geom_col() +\n  facet_wrap(~ legal_nature) +\n  labs(\n    title = \"Median Declared Share Capital by Company Size and Legal Nature\",\n    x = \"Company Size\",\n    y = \"Median Declared Share Capital (BRL)\"\n  ) +\n  theme_minimal()",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
+    "objectID": "tt/hw01-tt.html#conclusion",
+    "href": "tt/hw01-tt.html#conclusion",
+    "title": "Homework 01",
+    "section": "Conclusion",
+    "text": "Conclusion\nThis plot makes one pattern very clear: legal structure matters more than size. Privately held corporations have much higher median share capital than every other type at the micro-enterprise and “other” level, suggesting that incorporation is strongly tied to raising larger amounts of money. Sole proprietorships stay relatively low-capital across all sizes, but do stick with the trend of median capital increasing with size. LLCs and silent partnerships fall somewhere in the middle, with modest increases in capital for larger firms but nothing close to corporations. Overall, while capital tends to rise slightly with company size within each group, the differences in capital between legal types are much larger, indicating that how a business is organized legally has a stronger impact on share capital than how the size of the company.",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
     "objectID": "pcl/pcl.html",
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
@@ -50,7 +105,7 @@
     "text": "R",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -61,7 +116,7 @@
     "text": "Quarto\n\n\n\nfrom qmd4sci.njtierney.com",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -72,7 +127,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>ICA Sample 1</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 1</span>"
     ]
   },
   {
@@ -83,7 +138,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 2</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>ICA Sample 2</span>"
     ]
   },
   {
@@ -94,7 +149,7 @@
     "text": "🧩 Learning Goals\nBy the end of this lesson, you should be able to:",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -105,7 +160,7 @@
     "text": "Navigate ggplot2 reference page to find needed functions for a desired visualization\nNavigate the different sections of a function help page to construct desired plot features, in particular,\n\nNavigate the Usage section to identify arguments that must be set\nNavigate the Arguments section to understand how arguments work\nNavigate the Aesthetics section to learn how plot appearance can be controlled\nNavigate the Examples section for some usage examples\n\n\nIdentify when to use different data arguments within ggplot() and geom_() layers",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -116,7 +171,7 @@
     "text": "Introduction 1\n\nIn this lesson, we are going to recreate NYTimes 2015 Temperature Visualization (html) using data from San Francisco (SFO) in 2011.\n\n\nScreenshot of NYTimes 2015 Temperature Visualization",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -127,7 +182,7 @@
     "text": "Reading Data\nRun the code chunk below to load the tidyverse package and read in the San Francisco weather data.\n\nCodelibrary(tidyverse)\nweather &lt;- read_csv(\"https://mac-stat.github.io/data/sfo_weather.csv\")",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -138,7 +193,7 @@
     "text": "Understanding Data\nBelow is the codebook of the data. Familiarize yourself with the meaning of each variable. Use the codebook as a reference when using the data.\n\n\nMonth: Month of the year (1-12)\n\nDay: Day within the month (1-31)\n\nLow/High: Low/high temperature this day\n\nNormalLow/NormalHigh: Typical low/high temperature for this day of the year\n\nRecordLow/RecordHigh: Record low/high temperature for this day of the year\n\nLowYr/HighYr: Year in which the record low/high was observed\n\nPrecip: Amount of precipitation (inches) this day\n\nRecordPrecip: Record amount of precipitation for this day of the year\n\nPrecipYr: Year in which the record precipitation was observed\n\ndate: The actual date in 2011 for this day in YYYY-MM-DD format\n\ndateInYear: What day of the year is it? (1-365)\n\nRecord: Logical (TRUE/FALSE) indicating whether this day had a high temperature record\n\nRecordText: Text that displays the record high for this day (\"Record high: ##\")\n\nRecordP: Logical (TRUE/FALSE) indicating whether this day had a precipitation record\n\nCulmPrec: Cumulative precipitation for the month up to this day",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -149,7 +204,7 @@
     "text": "Exercise 1\nExamine the NYTimes 2015 Temperature Visualization (html) then answer the following questions.\nData Storytelling\n\nRelate the intro paragraph: “Scientists declared that 2015 was Earth’s hottest year on record…” to the design of the visualization. In particular, based on the intro paragraph,\n\nWhat key message/claim does NYTimes want readers to be able to explore? NYTimes wants readers to explore the claim that 2015 was the Earth’s hottest year on record.\nHow did this goal inform what information is displayed in the visualization? This goal contributed to the addition of multiple different features being displayed on the visualization. Their is a comparison for 2015 temperatures compared to average temperatures at that time and arrows that point out if record highs occurred on that day of the year.\n\n\n\nAesthetic Mapping\n\nWhat specific variables (from the data codebook) underlie the visualization?\nHow do these variables map to aesthetics of the visual elements, eg, position, size, shape, and color of glyphs?",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -160,7 +215,7 @@
     "text": "Exercise 2\nNavigate the Geoms section of the ggplot2 reference page to find a geom that corresponds to the visual elements in the temperature plot. Using both the small thumbnail visuals on the right and the names of the geom’s, brainstorm some possibilities for geom’s you might use to recreate the temperature visualization.\ngeom_col() and geom_bar() are the only ones that seem like they could possibly create this visualization\n\n\n\n\n\n\nNavigating Documentation / Reference Pages\n\n\n\nYou need to navigate the geoms further by opening up their reference pages to understand if a particular geom is suitable for our task. Let’s look at the geom_point documentation page to learn how to read a documentation page..\nThe Usage section shows all of the possible inputs (arguments) to the geom. These are all of the ways that a geom can be customized. Just looking at the argument names can help give a hint as to what arguments might fit our needs.\nThe Arguments section, on the other hand, explains in detail what each argument does and the possible values the argument can take. The mapping, data, and ... arguments will be the most commonly used by far.\n\n\nmapping is the argument that is being used when we specify which variables should link or map to the plot aesthetics (the code inside aes()).\n\ndata is the argument where we specify the dataset containing the variables that the geom is using.\n\n... is used for fixed aesthetics (ones that don’t correspond to a variable), eg, to set the color of all points, we use color = \"red\" and to set the size of all points, we use size = 3.\n\nThe Aesthetics section of a geom documentation page gives information on how the visual elements of the geom correspond to data. For example, the geom_point documentation page shows that x and y aesthetics are available. It also shows some new aesthetics like stroke.\n\n\n\n\n\n\n\n\ndata Argument\n\n\n\nPreviously you have used one dataset per plot by specifying that as the first argument of ggplot(). However, multiple data sets can be passed into ggplot as shown in the example below.\n\nCodedata(diamonds)\n\ndiamonds_avg_price &lt;- diamonds |&gt;\n  group_by(carat) |&gt;\n  summarize(avg_price = mean(price)) |&gt;\n  arrange(carat)\ndiamonds_avg_price &lt;- diamonds_avg_price[seq(1, nrow(diamonds_avg_price), 3), ]\n\nggplot(diamonds, aes(x = carat, y = price)) +\n  geom_point() +\n  geom_point(\n    data = diamonds_avg_price,\n    aes(x = carat, y = avg_price),\n    color = \"deepskyblue\",\n    size = 3\n  )\n\n\n\n\n\n\n\n\n\nLook at the geom_linerange documentation page and start off your temperature visualization with the record lows and highs. Your plot should look like the one below. The hex code of the used light tan color is #ECEBE3.\n\n\nSFO Weather Records in 2011\n\n\nCodeggplot(weather) +\n    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +\n    theme_classic()\n\n\n\n\n\n\n\n\n\n\n\n\n\nKeyboard Shortcuts\n\n\n\nAs you work on this plot, try to use some new keyboard shortcuts. Focus on the following:\n\nInsert code chunk: Ctrl+Alt+I (Windows). Option+Command+I (Mac).\nRun current code chunk: Ctrl+Shift+Enter (Windows). Command+Shift+Return (Mac).\nRun current line/currently selected lines: Ctrl+Enter (Windows). Command+Return (Mac).",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -171,7 +226,7 @@
     "text": "Exercise 3\nIn your visualization, also display the usual temperatures (NormalLow and NormalHigh) and actual 2011 temperatures (Low and High). Your plot should look like the one below. The hex code of the color used for the usual temperatures is \"#C8B8BA\" and for the color used for actual temperatures is \"#A90248\".\n\n\nSFO observed, Average, and Record Daily Temperatures in 2011\n\n\nCodeggplot(weather) +\n    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +\n    theme_classic() +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),\n                 color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),\n                 color = \"#A90248\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nFiner Control\n\n\n\nIf you’d like finer control of the width of these lines/rectangles, check out the geom_rect documentation page.",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -182,7 +237,7 @@
     "text": "Exercise 4\nRecreate the visual demarcations of the months by adding vertical lines separating the months. Brainstorm how we might draw those vertical lines. What geom might we use? What subset of the data might we use in that geom layer to draw lines only at the month divisions?\n\nCodemonth_lengths &lt;- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)\n\nmonth_ends &lt;- cumsum(month_lengths)\nmonth_starts &lt;- c(1, head(month_ends, -1) + 1)\n\nmonth_centers &lt;- (month_starts + month_ends) / 2\n\nggplot(weather) +\n    geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ECEBE3') +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),\n                 color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),\n                 color = \"#A90248\") +\n  geom_vline(xintercept = month_starts) +\ntheme_classic()",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -193,7 +248,7 @@
     "text": "Exercise 5\nChange the x-axis labels so that the month names display in the center of each month’s slice of the plot.\n\n\n\n\n\n\nMonth Names\n\n\n\nR has built-in variables called month.abb and month.name that contain abbreviated and full month names.\n\n\nTry to figuring out this new challenge using search engines and LLMs:\n\nSearch Engines. Use Google to search for possible solutions using the jargon that is most likely to return the most relevant results. Record search queries and your thought process in selecting which search results to look at first.\nLLMs. Use ChatGPT or Gemini with prompts that will most efficiently get you the desired results. Record the chat prompts used and output given. Evaluate the output. Do you fully understand the code generated? How can you tell that the generated code is correct?\n\nChatGpt prompt: “This is where I’m at now:”ggplot(weather) + geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = ‘#ECEBE3’) + theme_classic() + geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = “#C8B8BA”) + geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = “#A90248”)” next step: Change the x-axis labels so that the month names display in the center of each month’s slice of the plot. ::: {.callout-tip title=“Month Names”} R has built-in variables called month.abb and month.name that contain abbreviated and full month names.”\n\nCodemonth_lengths &lt;- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)\n\nmonth_ends &lt;- cumsum(month_lengths)\nmonth_starts &lt;- c(1, head(month_ends, -1) + 1)\n\nmonth_centers &lt;- (month_starts + month_ends) / 2\n\nggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), \n                 color = '#ECEBE3') +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),\n                 color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High),\n                 color = \"#A90248\") +\n  scale_x_continuous(\n    breaks = month_centers,\n    labels = month.abb\n  ) +\ntheme_classic()",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -204,7 +259,7 @@
     "text": "Exercise 6\nCreate a precipitation plot that looks like the following. Note that\n\nThe triangles point to precipitation records–refer to the data codebook above for the RecordP variable.\nThe numbers on the plot indicate the total precipitation for the month–search the hjust and vjust options to adjust the alignment of the numbers.\nThe blue and tan colors hex codes are \"#32a3d8\" and \"#ebeae2\", respectively.\n\n\n\nSFO Precipitation in 2011\n\n\nCodemonthly_labels &lt;- weather |&gt;\n  group_by(Month) |&gt;\n  summarise(\n    x_pos = max(dateInYear),\n    y_pos = max(CulmPrec),\n    .groups = \"drop\"\n  )\n\nggplot(weather, aes(x = dateInYear)) + \n  geom_area(aes(y = CulmPrec, group = Month),\n            fill = \"#C8B8BA\") +\n  geom_line(aes(x = dateInYear, y = CulmPrec, group = Month),\n            color = \"#32a3d8\", \n            linewidth = 0.3) +\n  geom_point(data = subset(weather, RecordP == 1), aes(x = dateInYear,y = CulmPrec),\n             shape = 25, fill = \"black\", color = \"black\", size = 2) +\n  geom_text(data = monthly_labels, aes(x = x_pos, y = y_pos, label = y_pos), \n            size = 3, vjust = -0.5)",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -215,7 +270,7 @@
     "text": "Done!\n\nCheck the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -226,7 +281,7 @@
     "text": "The exercise in this lesson are inspired by an assignment from the Concepts in Computing with Data course at UC Berkeley taught by Dr. Deborah Nolan.↩︎",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
     ]
   },
   {
@@ -237,7 +292,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 1</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 1</span>"
     ]
   },
   {
@@ -248,7 +303,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 2</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Extra Sample 2</span>"
     ]
   }
 ]
