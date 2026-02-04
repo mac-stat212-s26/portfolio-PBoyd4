@@ -76,7 +76,11 @@ companies_top_legal |>
   mutate(company_size = factor(company_size,
                                levels = c("micro-enterprise",
                                           "small-enterprise",
-                                          "other"))) |>
+                                          "other")),
+         company_size = recode(company_size,
+                             "micro-enterprise" = "Micro",
+                             "small-enterprise" = "Small",
+                             "other" = "Other")) |>
   ggplot(aes(x = company_size, y = median_capital)) +
   geom_col() +
   facet_wrap(~ legal_nature) +

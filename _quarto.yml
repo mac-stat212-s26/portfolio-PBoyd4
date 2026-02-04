@@ -22,7 +22,7 @@ number-depth: 2
 
 book:
   title: "COMP/STAT212 Portfolio"
-  author: "Your Name Here"
+  author: "Paxton Boyd"
   date: today  # use today to update date published based on last time project was edited
   date-format: full
   # favicon: path/to/favorite-logo.png
@@ -68,6 +68,7 @@ book:
       chapters:
       - tt/2025-07-08.qmd
       - tt/2025-07-15.qmd
+      - tt/hw01-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
