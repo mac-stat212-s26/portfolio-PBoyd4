@@ -137,6 +137,7 @@ In R, if two vectors are being combined or compared, the shorter one will be rep
 x <- c(1, 2, 9, 4)
 x == c(1, 2, 4)
 x == c(1, 2, 4, 1) # This line demonstrates the recycling that happens on the previous line
+x == c(4, 2, 9)
 ```
 
 
@@ -187,6 +188,7 @@ Note: `ifelse()` (from base R) and `if_else()` (from tidyverse) are different fu
 <details>
 <summary>Examples</summary>
 ```{r}
+
 #| error: true
 
 x <- c(-1, -2, 4, 9, NA)
@@ -196,7 +198,7 @@ if_else(x > 0, 'positive', 'negative')
 
 
 ifelse(x > 0, 1, 'negative') # Bad: doesn't complain with combo of data types
-if_else(x > 0, 1, 'negative') # Good:noisy to make sure you catch issues
+#if_else(x > 0, 1, 'negative') # Good:noisy to make sure you catch issues
 
 if_else(x > 0, 'positive', 'negative', missing = 'missing') # Good: can explicitly handle NA
 
@@ -249,17 +251,25 @@ diamonds_wrong <- diamonds |>
   filter(cut == c("Fair", "Premium", "Ideal"))
 
 diamonds_3 <- diamonds |> 
-  filter(cut %in% c("Fair", "Premium", "Ideal")
+  filter(cut %in% c("Fair", "Premium", "Ideal"))
 
-         
-  
+
 count_cut <- nrow(diamonds_3)
+count_cut
+         
+
+fraction_cut <- count_cut / nrow(diamonds)
+fraction_cut
 
 
 #4
+diamonds_4 <- diamonds |> 
+  filter(cut %in% c("Fair"))
 
+diamonds_4 |> 
+  arrange(desc(price))
 
-
+head(diamonds_4)
 #5
 
 ```
