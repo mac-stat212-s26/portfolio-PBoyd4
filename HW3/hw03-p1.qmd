@@ -39,7 +39,7 @@ library(tidycensus)
 library(tidyverse)
 library(sf)
 
-
+v20 <- load_variables(2020, "acs5", cache = TRUE)
 
 v20 |>
   filter(str_detect(label, regex("bicycle", ignore_case = TRUE))) |>
@@ -47,7 +47,6 @@ v20 |>
   head(20)
 
 
-View(v20)
 ```
 
 
