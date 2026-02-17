@@ -1,5 +1,8 @@
 ---
 title: "HW03-P2 Adv Map Viz"
+format:
+  html: 
+    embed-resources: true
 ---
 
 
@@ -38,7 +41,11 @@ Go to [data.gov](https://catalog.data.gov/dataset/), search for "walkability ind
 Read in the dataset with `st_read()` by providing a relative path to the `WalkabilityIndex/Natl_WI.gdb` folder (as opposed to a file within that folder). This will take a few seconds. You should see a message `using driver OpenFileGDB` during this process.
 
 ```{r reading}
-walk_index <- st_read(___)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+walk_index <- st_read("p2data/Natl_WI.gdb")
 ```
 
 ## 2 MN Walkability
@@ -46,15 +53,26 @@ walk_index <- st_read(___)
 Let's first get a sense for the data by making a map of walkability indices for Minnesota. You will first need to filter the `walk_index` dataset by using the `STATEFP` variable. `STATEFP` contains the state's [FIPS code](https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt) which is `"27"` for Minnesota. The `NatWalkInd` variable contains the walkability indices. Save this smaller dataset in a `data/processed` folder as `walk_index_mn.RData`, which is an R Data file. 
 
 ```{r mn_wi_filter}
-walk_index_mn <- ___ # Code for filtering to MN
 
-save(walk_index_mn, file = 'data/processed/walk_index_mn.RData')
+
+walk_index_mn <- walk_index |>
+  filter(STATEFP == "27")
+
+save(walk_index_mn, file = 'p2data/processed/walk_index_mn.RData')
 ```
 
 ```{r mn_wi_map}
-load('data/processed/walk_index_mn.RData')
+load('p2data/processed/walk_index_mn.RData')
 
-# Plot walkability data for MN
+ggplot(walk_index_mn) +
+  geom_sf(aes(fill = NatWalkInd), color = NA) +
+  scale_fill_gradientn(
+    colors = c("white", "yellow", "orange", "red", "purple"),
+    name = "Walkability\nIndex") +
+  labs(
+    title = "Minnesota Walkability Index (2019)",
+    subtitle = "Census block groups") +
+  theme_void()
 
 
 ```
@@ -67,8 +85,13 @@ We will start setting up to do a nationwide exploration of walkability. Use the 
 If needed, transform `all_us_counties` to have the same CRS as the Walkability Index dataset.
 
 ```{r get_us_counties}
-all_us_counties <- us_counties(___)
+library(USAboundaries)
+all_us_counties <- us_counties(resolution = "low")
 
+all_us_counties <- st_transform(all_us_counties, st_crs(walk_index))
+
+sf::st_crs(all_us_counties)
+sf::st_crs(walk_index)
 
 ```
 
@@ -93,10 +116,14 @@ In both functions, `x` represents the vector of numerical entries you want to su
 
 ```{r summary_over_counties}
 # Use st_join to merge county boundaries and regions where we have walkability index data
-all_us_counties_walk_index <- st_join(___, ___)
+all_us_counties_walk_index <- st_join(all_us_counties, walk_index)
 
 # Use Hmisc::wtd.mean() and Hmisc::wtd.var() to compute the weighted mean and SD of the walkability index (weighted by Shape_Area)
-all_us_counties_walk_index_summ <- 
+all_us_counties_walk_index_summ <- all_us_counties_walk_index |>
+  group_by(geoid) |>
+  summarize(
+    wi_mean = Hmisc::wtd.mean(NatWalkInd, weights = Shape_Area, na.rm = TRUE),
+    wi_sd   = sqrt(Hmisc::wtd.var(NatWalkInd, weights = Shape_Area, na.rm = TRUE)))
 ```
 
 
@@ -106,6 +133,28 @@ Pick one state. For this state, make a map that allows you to see average walkab
 
 ```{r one_state_county_summary}
 # Filter down to one state and make maps
+one_state <- all_us_counties_walk_index_summ |>
+  mutate(statefp = substr(geoid, 1, 2)) |>
+  filter(statefp == "27")
+
+
+ggplot(one_state) +
+  geom_sf(aes(fill = wi_mean), color = "white") +
+  scale_fill_gradientn(
+    colors = c("white", "yellow", "orange", "red", "purple"),
+    name = "Avg\nWalkability") +
+  labs(title = "Average Walkability by County (Minnesota)") +
+  theme_void()
+
+ggplot(one_state) +
+  geom_sf(aes(fill = wi_sd), color = "white") +
+  scale_fill_gradientn(
+    colors = c("white", "yellow", "orange", "red", "purple"),
+    name = "SD\nWalkability",
+    na.value = "grey"
+  ) +
+  labs(title = "Variability in Walkability by County (Minnesota)") +
+  theme_void()
 
 ```
 
@@ -114,13 +163,78 @@ Pick one state. For this state, make a map that allows you to see average walkab
 
 Make plots (not maps) that allow you to explore if there is a relationship between the variability in walkability in a county and the average level of walkability in a county. One plot should depict the United States as a whole, and a second plot should break down this relationship across states. Summarize your findings and what you would be curious to explore next based on your explorations.
 
-```{r sd_vs_mean_us}
-# Plots for the US and by states
 
+```{r sd_vs_mean_us}
+
+county_wi <- all_us_counties_walk_index_summ |>
+  st_drop_geometry() |>
+  mutate(statefp = substr(geoid, 1, 2))
+
+ggplot(county_wi, aes(x = wi_mean, y = wi_sd)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    title = "Walkability Variability vs Average (All US Counties)",
+    x = "Weighted mean walkability (county)",
+    y = "Weighted SD of walkability (county)") +
+  theme_minimal()
+
+
+ggplot(county_wi, aes(x = wi_mean, y = wi_sd)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~ statefp) +
+  labs(
+    title = "Walkability Variability vs Average by State",
+    subtitle = "Facets labeled by state FIPS (first two digits of county GEOID)",
+    x = "Weighted mean walkability (county)",
+    y = "Weighted SD of walkability (county)") +
+  theme_minimal()
 ```
 
 > Summarize your findings and what you would be curious to explore next based on your explorations.
 
+plot 1: Across US counties, higher average walkability is generally associated with higher variability, this could potentially be counties with walkable urban cores that also include less-walkable suburban/rural areas. The relationship flattens at the highest averages, where counties may be more equally walkable.
+
+plot 2: The mean–variability relationship appears in many states, but the strength/shape differs, which makes me curious how county size, urbanization, or population density affects both the average and SD so I'm going to make a new data point for population density and explore the relationships between population density(pop_density) and average walkability and sd of walkability.
+
+
+```{r}
+
+county_density_simple <- all_us_counties_walk_index |>
+  group_by(geoid) |>
+  summarize(
+    pop_total  = sum(TotPop),
+    land_acres = sum(Ac_Land)) |>
+  mutate(pop_density = pop_total / land_acres) 
+
+county_wi_density <- all_us_counties_walk_index_summ |>
+  st_drop_geometry() |>
+  left_join(county_density_simple |> select(geoid, pop_density), by = "geoid")
+
+
+ggplot(county_wi_density, aes(x = pop_density, y = wi_mean)) +
+  geom_point(alpha = 0.35, size = 0.8) +
+  geom_smooth(se = FALSE) +
+  scale_x_log10() +
+  labs(
+    title = "Population Density vs Average Walkability (US Counties)",
+    x = "Population density (people per acre, log scale)",
+    y = "Weighted mean walkability (county)") +
+  theme_minimal()
+
+
+ggplot(county_wi_density, aes(x = pop_density, y = wi_sd)) +
+  geom_point(alpha = 0.35, size = 0.8) +
+  geom_smooth(se = FALSE) +
+  scale_x_log10() +
+  labs(
+    title = "Population Density vs Walkability Variability (US Counties)",
+    x = "Population density (people per acre, log scale)",
+    y = "Weighted SD of walkability (county)") +
+  theme_minimal()
+```
+Population density has a very strong relationship with both average walkability and SD of walkability, which makes sense. Denser/more urban areas have much more sidewalks and destinations to walk to so it makes sense that the average walkability increases. At the same time, these urban areas also usually don't occupy a whole county area, so as density rises the within county differences often increases, leading to a higher SD. 
 
 
 ## Resources Reflection (required)
@@ -129,8 +243,10 @@ List the resources you used to help with this assignment then write 3-5 sentence
 
 **Resources:**
 
--
--
--
+- previous activities
+- google search
+- 
 
 **Reflection:**
+A lot of this was similar ideas to part 1 of this homework so I built off of those ideas/strategies. I had to look up documentation for switching to log scale for the last 2 plots since the range of population density and there were extreme values that were stretching the x axis a little bit too much.
+
