@@ -65,7 +65,6 @@ _freeze/
 *_files/
 /*/*_files/
 /site_libs
-*.html
 *.tex
 *.log
 *.aux
