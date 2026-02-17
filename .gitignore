@@ -70,3 +70,5 @@ _freeze/
 *.log
 *.aux
 *.toc
+HW2/hw02-p1.qmd
+/HW3/data
