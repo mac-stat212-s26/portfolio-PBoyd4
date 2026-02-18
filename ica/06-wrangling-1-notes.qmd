@@ -271,6 +271,10 @@ diamonds_4 |>
 
 head(diamonds_4)
 #5
+diamonds <- diamonds |>
+  mutate(
+    price_cat1 = if_else(price < 500, "low", "high")
+  )
 
 ```
 
