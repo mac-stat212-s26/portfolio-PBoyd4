@@ -23,17 +23,19 @@ By the end of this lesson, you should be able to:
 
 ## Data Quality Checklist 
 
-When wrangling / cleaning data, make sure to check the assumptions you make about the data to ensure you don't lose data quality.
+**Assumptions**
+
+- When wrangling or cleaning data, make sure to check the assumptions you are making about the data to ensure you don't lose data quality.
 
 
 :::{.incremental}
 **Data Parsing** (reading data into a different data format)
 
-- Always keep the original, raw data (don't manually change it).
-- Use Test Cases: Find rows or write test cases to double check the wrangling works as expected
-- DATES: When using `lubridate` to parse dates and times, ensure the strings are consistently ordered and formatted correctly, eg,  mm/dd/yy vs. dd/mm/yy. 
-- STRINGS: When using `stringr` to parse strings with regular expressions, check example rows to ensure that the pattern captured all of the examples you want and excluded the patterns you don't want.
-- Always check for missing values to see if the missing ones are expected given the original data.
+- **Raw Data.**  Always keep the original raw data and do not manually change it.
+- **Wrangling.**  When wrangling date, check that the result is as expected by inspecting rows or writing test cases.
+- **Dates.** When using `lubridate` to parse dates and times, ensure the strings are consistently ordered and formatted correctly, eg,  mm/dd/yy vs. dd/mm/yy. 
+- **Strings.** When using `stringr` to parse strings with regular expressions, check example rows to ensure that the pattern captured all of the examples you want and excluded the patterns you don't want.
+- **Missing Data.**  Always check for missing values to see if the missing ones are expected given the original data.
 
 :::
 
@@ -75,7 +77,9 @@ We need to **make implicit missingness explicit** before we can work with the da
     - If a combination is missing, you can create a new row with explicit missing values. 
       - For example, if you expect every participant (each has a unique `pid`) to have an observation for each `visit`, you could use the function `complete()` to create that new row and plug in values of `NA` for the missing data.
 
-```
+```{r}
+#| eval: false
+
 study_data_full <- study_data |> 
   complete(pid, visit)
 ```
@@ -88,17 +92,17 @@ If you have **explicit** missing data, there are 3 main ways of proceeding:
 
 1. Drop the cases or rows with any missing data from the analysis--a **complete case analysis**
     -  Pro: Easy to implement
-    -  Con: reduces sample size, introduces bias if the missing data is not "missing completely at random" 
+    -  Con: reduces sample size, introduces bias if the missing data is not "missing completely at random (MCAR)" 
     
 2. Create a category for missing values.
     - Example: The survey question "What is your gender?" might only provide two possible responses: "male" and "female". Missing values for this could indicate that the respondent uses a non-binary designation. Instead of dropping these cases, treating the missing data as its own category ("Does not wish to answer") would be more appropriate.
-    - Pros: Maintains sample size, may help us if data is "missing not at random"
+    - Pros: Maintains sample size, may help us if data is "missing not at random (MNAR)"
     - Cons: Not directly applicable to continuous outcomes (could include interactions with a categorical version in models to account for it)
     
 3. **Impute** (or fill in values for) the missing data using imputation algorithms.
     - Imputation algorithms can be as simple as replacing missing values with the mean of the non-missing values (very simplistic).
     - Regression imputation algorithms use models to predict missing values as a function of other variables in the data.
-    - Pros: Maintains sample size, multiple regression imputation minimizes bias if "missing at random" 
+    - Pros: Maintains sample size, multiple regression imputation minimizes bias if "missing at random (MAR)" 
     - Cons: Computationally intensive
 :::
 
@@ -114,33 +118,36 @@ The reasons for which a variable might have missing data are divided into 3 mech
 Within a dataset, multiple mechanisms may be present--we need to consider the missingness mechanism for each variable individually.
 
 ::: {.incremental}
-- **Missing completely at random (MCAR)**:
-    - The probability of missing data for a variable is the same for all cases. Implies that causes of the missing data are unrelated to the data. (<https://stefvanbuuren.name/fimd/sec-MCAR.html>)
-    - Examples:
-        - Measurement device that runs out of batteries causes the remainder of observations for the day to be missing.
-        - Data entry software requires a particular field to be typo-free, and missing values are introduced when there are typos.
-    - Implications for downstream work:
-        - If a variable has MCAR missingness, a complete case analysis will be unbiased (still valid).
-        - However, with a lot of missing observations, a complete case analysis will suffer from loss of statistical power (ability to detect a real difference), and imputation will be useful to retain the original sample size.
+**Missing completely at random (MCAR)**
 
-- **Missing at random (MAR):**
-    - The probability of missing data is related to **observed** variables but unrelated to unobserved information.
-    - Examples:
-        - Blood pressure measurements tend to be missing in patients in worse health. (Those in worse health are more likely to miss clinic visits.) Better and worse health can be measured by a variety of indicators in their health record.
-        - In a survey, older people are more likely to report their income than younger people. Missingness is related to the observed age variable, but not to unobserved information.
-    - Implications for downstream work:
-        - Try to use imputation methods that predict the value of the missing variables from other observed variables. Assessing whether this can be done accurately takes some exploration--we'll explore this shortly.
+  - The probability of missing data for a variable is the same for all cases. Implies that causes of the missing data are unrelated to the data. (<https://stefvanbuuren.name/fimd/sec-MCAR.html>)
+  - Examples:
+      - Measurement device that runs out of batteries causes the remainder of observations for the day to be missing.
+      - Data entry software requires a particular field to be typo-free, and missing values are introduced when there are typos.
+  - Implications for downstream work:
+      - If a variable has MCAR missingness, a complete case analysis will be unbiased (still valid).
+      - However, with a lot of missing observations, a complete case analysis will suffer from loss of statistical power (ability to detect a real difference), and imputation will be useful to retain the original sample size.
 
-- **Missing not at random (MNAR):**
-    - The probability of missing data is related to **unobserved** variables (and probably observed variables too).
-    - Examples:
-        - Blood pressure measurements are more likely to be missing for those with the highest blood pressure. This is MNAR rather than MAR because the missing data on blood pressure is related to the unobserved values themselves.
-        - High-income individuals may be less likely to report their income.
-    - Implications for downstream work:
-        - Ideally, we would learn more about the causes for the missingness. This could allow us to use more informed imputation models.
-            - Example: Biological measurements that tend to be missing because of concentrations that are too low (a phenomenon known as left-censoring). Imputation methods specifically suited to left-censoring are useful here.
-        - We can use imputation methods with different assumptions about the missing data and try out a variety of assumptions. This lets us see how sensitive the results are under various scenarios.
-            - Example: If higher incomes are more likely to be missing, we can make different assumptions about what "high" could be to fill in the missing values and see how our results change under these different assumptions.
+**Missing at random (MAR):**
+
+  - The probability of missing data is related to **observed** variables but unrelated to unobserved information.
+  - Examples:
+      - Blood pressure measurements tend to be missing in patients in worse health. (Those in worse health are more likely to miss clinic visits.) Better and worse health can be measured by a variety of indicators in their health record.
+      - In a survey, older people are more likely to report their income than younger people. Missingness is related to the observed age variable, but not to unobserved information.
+  - Implications for downstream work:
+      - Try to use imputation methods that predict the value of the missing variables from other observed variables. Assessing whether this can be done accurately takes some exploration--we'll explore this shortly.
+
+**Missing not at random (MNAR):**
+
+  - The probability of missing data is related to **unobserved** variables (and probably observed variables too).
+  - Examples:
+      - Blood pressure measurements are more likely to be missing for those with the highest blood pressure. This is MNAR rather than MAR because the missing data on blood pressure is related to the unobserved values themselves.
+      - High-income individuals may be less likely to report their income.
+  - Implications for downstream work:
+      - Ideally, we would learn more about the causes for the missingness. This could allow us to use more informed imputation models.
+          - Example: Biological measurements that tend to be missing because of concentrations that are too low (a phenomenon known as left-censoring). Imputation methods specifically suited to left-censoring are useful here.
+      - We can use imputation methods with different assumptions about the missing data and try out a variety of assumptions. This lets us see how sensitive the results are under various scenarios.
+          - Example: If higher incomes are more likely to be missing, we can make different assumptions about what "high" could be to fill in the missing values and see how our results change under these different assumptions.
 
 :::
 
