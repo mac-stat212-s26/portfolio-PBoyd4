@@ -94,6 +94,7 @@ Note:
 When a function has default values for arguments, they don't have to be provided when you call the function if you want to use the default value. See below:
 
 ```{r error = TRUE}
+
 # Does throw an error
 average(c(1, 2, 3, NA))
 average(c(1, 2, 3, NA), remove_nas = TRUE)
@@ -101,6 +102,7 @@ average(c(1, 2, 3, NA), remove_nas = TRUE)
 # Doesn't throw an error
 average2(c(1, 2, 3, NA))
 average2(c(1, 2, 3, NA), remove_nas = FALSE)
+
 ```
 
 
@@ -118,7 +120,9 @@ In programming, **scope** refers to the area of a program where a named object i
 - R uses **lexical scoping**, which means that the scope of a variable is determined by where it is created in the code. 
 
 
+
 Lexical scoping in R:
+
 
 - When code refers to an object (e.g. data set, function, vector, etc.), R looks for the object in the current, **local environment**. 
 - If it doesn't find it, it continues to search by looking in the parent environment, and so on. The top-level environment is the **global environment**, the location where all interactive (i.e. outside of a function) computation and storage takes place. 
@@ -206,14 +210,23 @@ Tips for writing functions:
 - `x = -3:-1`. Expected output: `0.0 0.5 1.0`
 
 ```{r}
+x <- 2:4
 
+rescale <- function(x) {
+  rng <- range(x, na.rm = TRUE)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
 
+rescale(x)
 ```
 
 2. **Phone digits** Write a function that formats a 10-digit phone number nicely as `(###) ###-####`. Your function should work on the following test cases: `c("651-330-8661", "6516966000", "800 867 5309")`. It may help to refer to the `stringr` cheatsheet.
 
 ```{r}
-
+library(stringr)
+phone <- function(x) {
+  
+}
 
 ```
 
