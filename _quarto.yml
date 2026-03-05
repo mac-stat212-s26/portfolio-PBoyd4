@@ -80,6 +80,8 @@ book:
       - ica/ica-sample2.qmd
       - ica/03-adv-ggplot-notes.qmd
       - ica/04_adv_maps/04-adv-maps-1-notes.qmd
+      - ica/06-wrangling-1-notes.qmd
+      - ica/07-wrangling-2/07-wrangling-2-notes.qmd
 
     - part: "Extras"
       chapters:
