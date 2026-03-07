@@ -155,8 +155,13 @@ Within a dataset, multiple mechanisms may be present--we need to consider the mi
 
 1. **Missing data mechanism** For each of the following situations, propose what missing data mechanism you think is most likely at play. 
   a. In a clinical trial, some patients dropped out before the end of the study. Their reasons for dropping out were not recorded.
+  MNAR
+  
   b. A weather station records temperature, humidity, and wind speed every hour. Some of the recorded values are missing.
+  MCAR(assuming random equipment issues unrelated to the weather values)
+  
   c. A social media platform collects data on user interactions, such as likes, comments, and shares. Some interactions are not recorded due to bugs in the code.
+  MAR
 
 
 
@@ -280,6 +285,23 @@ We want to see how `Month`, `Wind`, and `Temp` relate to the chance of missingne
 Does it look like a linear regression model (perhaps with variable transformations) could be effective in imputing the missing ozone data?
 
 ```{r}
+
+ozone_miss <- airquality |> 
+  mutate(miss_ozone = is.na(Ozone)) 
+  
+ozone_miss |> 
+  ggplot(aes(x = miss_ozone, y = Temp)) +
+  geom_boxplot()
+  
+ozone_miss |> 
+  ggplot(aes(fill = miss_ozone, x = Month)) +
+  geom_bar()
+
+ozone_miss |> 
+  ggplot(aes(x = miss_ozone, y = Wind)) +
+  geom_boxplot()
+  
+lm(Ozone ~ Temp + Wind + Month, data = airquality)
 
 ```
 

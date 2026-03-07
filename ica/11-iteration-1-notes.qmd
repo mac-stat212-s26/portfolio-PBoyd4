@@ -414,7 +414,12 @@ Work with your partner on the following exercises. As you work, make note of wha
 1. Use `crossing()` to create the data frame of argument combinations for our analyses. Call it `df_arg_combos`. Note that you can create a list of **formula** objects in R with `c(y ~ x1, y ~ x1 + x2)`. (Something like this will be the right hand side of an argument to `crossing()`.)
 
 ```{r}
+model_formulas <-  c(price ~ carat, price ~ carat + cut, price ~ carat + cut + clarity, price ~ carat + cut + clarity + color)
 
+
+df_arg_combos <- crossing(formula = model_formulas)
+
+df_arg_combos
 ```
 
 2. Write a function called `remove_outliers` that removes outliers in a dataset. The user should be able to supply the dataset (`data`), the variable to remove outliers in (`what_var`), and a threshold on the number of SDs away from the mean used to define outliers (`sd_thresh`). Write your function so that it runs as follows: `remove_outliers(diamonds, what_var = carat, sd_thresh = 3)`.
