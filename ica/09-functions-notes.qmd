@@ -216,7 +216,10 @@ rescale <- function(x) {
   rng <- range(x, na.rm = TRUE)
   (x - rng[1]) / (rng[2] - rng[1])
 }
-
+rescale(x)
+x = c(-1, 0, 5)
+rescale(x)
+x = -3:-1
 rescale(x)
 ```
 
@@ -224,9 +227,16 @@ rescale(x)
 
 ```{r}
 library(stringr)
+
 phone <- function(x) {
-  
+  digits <- str_remove_all(x, "[^0-9]")
+  str_replace(digits, "(\\d{3})(\\d{3})(\\d{4})", "(\\1) \\2-\\3")
 }
+
+# test cases
+phone("651-330-8661")
+phone("6516966000")
+phone("800 867 5309")
 
 ```
 
@@ -279,6 +289,8 @@ Error in `layer_sf()`:
 ! `mapping` must be created by `aes()`
 ```
 
+The first unnamed argument after the pipe is supposed to be the mapping, not the data.
+
 ## The `if-else if-else` Control Structure 
 
 Often in functions, you will want to execute code chunks conditionally. In a programming language, **control structures** are parts of the language that allow you to control what code is executed. By far the most common is the ``if-else if-else` structure.
@@ -315,6 +327,15 @@ The `if () else {}` code is not **vectorized**; the logical condition in `if()` 
 
 ```{r}
 
+temp_converter <- function(value, unit) {
+  if (unit == "C") {
+    return((value * 9/5) + 32)
+  } else {
+    return((value - 32) * 5/9)
+  }
+}
+
+temp_converter(43, "C")
 
 ```
 
@@ -323,7 +344,18 @@ The `if () else {}` code is not **vectorized**; the logical condition in `if()` 
 
 ```{r}
 
+domain_extraction <- function(email) {
+  if (str_detect(email, "\\.[A-Za-z]+$")) {
+    str_extract(email, "(?<=@)[^@\\s]+\\.[A-Za-z]+$")
+  } else {
+    return("Invalid email")
+  }
+}
+domain_extraction("paxtonboyd@gmail.com")
 
+domain_extraction("user@macalester.edu")
+
+domain_extraction("not_an_email")
 ```
 
 
@@ -411,6 +443,15 @@ group_means <- function(df, group_var, mean_var) {
 
 ```{r}
 
+prop_count <- function(df, group_var) {
+  df |>
+    count(pick({{ group_var }}), name = "n") |>
+    mutate(prop = n / sum(n))
+}
+
+prop_count(diamonds, cut)
+prop_count(diamonds, c(cut, color))
+
 ```
 
 7. **Scatterplot + Smooth function** Create a function that creates a scatterplot from a user-supplied dataset with user-supplied x and y variables. The plot should also show a curvy smoothing line in blue, and a linear smoothing line in red. Test your function using the `diamonds` dataset.
@@ -418,7 +459,36 @@ group_means <- function(df, group_var, mean_var) {
 
 ```{r}
 
+scatter <- function(df, x_var, y_var) {
+  df |> 
+    ggplot(aes(x = {{x_var}}, y = {{y_var}})) +
+    geom_point() +
+    geom_smooth(method = "lm", color = "blue") +
+    geom_smooth(color = "red")
+}
+
+scatter(diamonds, carat, price)
+
 ```
+
+9. **extra bar plot function:**
+
+```{r}
+bar_plot <- function(df, x_var) {
+  df |>
+    ggplot(aes(x = {{ x_var }})) +
+    geom_bar(fill = "purple") +
+    labs(
+      title = "Bar Plot",
+      x = deparse(substitute(x_var)),
+      y = "Count"
+    )
+}
+
+bar_plot(diamonds, cut)
+```
+
+
 ## Done!
 
 - Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website

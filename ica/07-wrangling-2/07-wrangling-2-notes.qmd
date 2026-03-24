@@ -363,7 +363,9 @@ posts |>
   mutate(has_match = str_detect(question_only, pattern)) |> 
   count(has_match)
 
-str_subset(posts$question_only, regex("sex", ignore_case = TRUE))
+matches <- str_subset(posts$question_only, regex("sex", ignore_case = TRUE))
+    length(matches)
+    head(matches, 10)
 
 
 
