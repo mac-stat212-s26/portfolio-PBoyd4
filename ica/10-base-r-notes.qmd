@@ -12,6 +12,13 @@ By the end of this lesson, you should be able to:
 - Use the `str()` function to examine the structure of an unfamiliar object and extract components from the object
 - Apply printing strategies to streamline the debugging and development process
 
+```{r}
+library(tibble)
+library(purrr)
+library(stringr)
+library(dplyr)
+```
+
 
 ## Common R Object Structures 
 
@@ -113,6 +120,7 @@ dim(m) # Get the dimensions of the matrix
 - [Tibbles do less and complain more than base data.frames](https://tibble.tidyverse.org/reference/tbl_df-class.html)
 
 ```{r}
+
 mod_df <- tibble(x = 1:10, y = 1:10 + rnorm(10))
 
 df <- tibble(a = 1:3, b = c("constant", "x", "x squared"), d = list(lm(y ~ 1, data = mod_df), lm(y ~ x, data = mod_df), lm(y ~ x + I(x^2), data = mod_df)))
@@ -209,6 +217,7 @@ filter(tibble(x = x), x > 5)
 
 ```{r}
 # List
+
 y[c(TRUE, FALSE, TRUE)]
 y[y |> map_lgl(~ is.numeric(.x))] # example of a map function!
 y[y |> map_lgl(~ is.character(.x))]
@@ -322,8 +331,33 @@ mtcars |> pull(mpg)
 1. **Subsetting Functions** For each of the tasks below, write a function that take a vector as input returns the desired output:
 
 a. The elements at even-numbered positions. (Hint: use the `seq()` function.)
+```{r}
+even_positions <- function(x) {
+  x[seq(2, length(x), by = 2)]
+}
+x <- c(3, 4, NA, 7, 8, 10, 11)
+
+even_positions(x)
+```
+
 b. Every element except the last value.
+```{r}
+drop_last <- function(x) {
+  x[-length(x)]
+}
+
+drop_last(x)
+```
+
 c. Only even values (and no missing values).
+```{r}
+even_values <- function(x) {
+  x[!is.na(x) & x %% 2 == 0]
+}
+
+even_values(x)
+```
+
 
 ## Exploring the structure of an object with `str()`  
 
@@ -366,10 +400,37 @@ pred_of_interest <- "hp"
 When you're done developing your function, remove these objects to declutter your environment by entering `rm(data, yvar, preds, pred_of_interest)` in the Console.
 
 ```{r eval=FALSE}
-fit_mod_and_extract <- function(___) {
+fit_mod_and_extract <- function(data, yvar, preds, pred_of_interest) {
+    if (!is.data.frame(data)) {
+    stop("data must be a data frame")
+  }
+  
+  if (!is.character(yvar) || length(yvar) != 1) {
+    stop("yvar must be a length-1 character vector")
+  }
+  
+  if (!is.character(preds) || length(preds) < 1) {
+    stop("preds must be a character vector of predictor names")
+  }
+  
+  if (!is.character(pred_of_interest) || length(pred_of_interest) != 1) {
+    stop("pred_of_interest must be a length-1 character vector")
+  }
+  
+  if (!(pred_of_interest %in% preds)) {
+    stop("pred_of_interest must be one of the predictors in preds")
+  }
+  
+  if (!(yvar %in% names(data))) {
+    stop("yvar is not a column in data")
+  }
+  
+  if (!all(preds %in% names(data))) {
+    stop("One or more predictors in preds are not columns in data")
+  }
     # Use str_c to create a string (formula_str) that looks like "yvar ~ pred1 + pred2"
     # Look at the documentation for a helpful argument
-    mod_formula_str <- 
+    mod_formula_str <- str_c(yvar, " ~ ", str_c(preds, collapse = " + "))
     mod_form <- as.formula(mod_formula_str)
     
     # Fit a linear model using the constructed formula and given data
@@ -381,16 +442,21 @@ fit_mod_and_extract <- function(___) {
     # Return the coefficient estimate and CI for the predictor of interest
     tibble(
         which_pred = pred_of_interest,
-        estimate = ___,
-        ci_lower = ___,
-        ci_upper = ___
+        estimate = mod$coefficients[pred_of_interest],
+        ci_lower = ci[pred_of_interest, "2.5 %"],
+        ci_upper = ci[pred_of_interest, "97.5 %"]
     )
 }
 ```
 
 ```{r}
 
-
+fit_mod_and_extract(
+  data = mtcars,
+  yvar = "mpg",
+  preds = c("hp", "wt"),
+  pred_of_interest = "hp"
+)
 
 
 ```
@@ -429,6 +495,7 @@ My_own_sum(c(1,2,3))
   
 ```{r eval = FALSE}
 fit_mod_and_extract <- function(data, yvar, preds, pred_of_interest) {
+    
     # Use str_c to create a string (formula_str) that looks like "yvar ~ pred1 + pred2"
     # Look at the documentation for a helpful argument
     mod_formula_str <- str_c(yvar, "~", str_c(preds, collapse = "+"))
