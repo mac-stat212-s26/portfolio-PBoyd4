@@ -399,7 +399,7 @@ pred_of_interest <- "hp"
 
 When you're done developing your function, remove these objects to declutter your environment by entering `rm(data, yvar, preds, pred_of_interest)` in the Console.
 
-```{r eval=FALSE}
+```{r}
 fit_mod_and_extract <- function(data, yvar, preds, pred_of_interest) {
     if (!is.data.frame(data)) {
     stop("data must be a data frame")
