@@ -197,11 +197,13 @@ Write `for`-loops that do each of the following:
 # for loop
 
 for(i in 2:20) {
-  print(i)
+  if (i %% 2 == 0){
+    print(i)
+  }
 }
 
 # vectorized approach with `seq()`
-seq(2,20)
+seq(2,20, by = 2)
 
 ```
     
@@ -209,14 +211,17 @@ seq(2,20)
     - Then, produce the same output with `str_c()` only.
     
 ```{r}    
+library(stringr)
 # for loop
 
-for(g in month.name) {
-  print(g)
+months_vector <- character(length(month.name))
+for(i in seq_along(month.name)) {
+  months_vector[i] <- str_c("Month ", i, ": ", month.name[i])
 }
+months_vector
 
 # vectorized approach with `str_c()`
-str_c(month.name)
+str_c("Month ", seq_along(month.name), ": ", month.name)
 ```
 
 3. On the `diamonds` dataset, fit stratified models of price vs. carat, model separately estimated for each value of `cut`, and store the fitted models in a list storage container.
@@ -235,9 +240,11 @@ lin_mod_results <- vector(mode = "list", length = length(cuts))
 for (i in seq_along(cuts)) {
     this_cut <- cuts[i]
     diamonds_sub <- diamonds |>
-        filter(cut==this_cut)
+        filter(cut == this_cut)
     lin_mod_results[[i]] <- lm(price ~ carat, data = diamonds_sub)
 }
+names(lin_mod_results) <- cuts
+lin_mod_results
 
 
 ```
