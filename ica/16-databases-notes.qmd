@@ -346,12 +346,27 @@ Note two characteristics of SQL summarization here:
 
 **Exercise:** Change the previous query so it orders the result rows by the number of posts of that type. *Hint: Reuse the name you assigned to the aggregate function.*
 
+```{sql eval=FALSE}
+SELECT 
+    PostTypeId, COUNT(Id) numPosts
+FROM posts
+GROUP BY PostTypeId 
+ORDER BY numPosts DESC
+```
 
 
 
 **Exercise:** Find the most commonly used tagsets (sets/combinations of tags) applied to posts. Note that this is not asking you to count the most common individual tags --- this would be more complex because multiple tags are squashed into the Tags field.
 
 
+```{sql eval=FALSE}
+SELECT 
+    Tags, COUNT(Id) numPosts
+FROM posts
+WHERE Tags IS NOT NULL
+GROUP BY Tags
+ORDER BY numPosts DESC
+```
 
 
 
@@ -379,6 +394,14 @@ We see a few notable items here:
 
 **Exercise:** Create a query similar to the one above that identifies the authors of the top rated comments instead of posts.
 
+```{sql eval=FALSE}
+SELECT TOP(100)
+    Text, Score, DisplayName, Reputation
+FROM Comments c
+JOIN Users u
+ON c.UserId = u.Id
+ORDER BY Score DESC
+```
 
 
 If you want more practice, go to <https://mystery.knightlab.com/>.

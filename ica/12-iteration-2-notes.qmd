@@ -30,6 +30,26 @@ Recall that:
 - Then translate each step to code.
 
 ```{r}
+library(dplyr)
+library(tidyverse)
+
+# 1. Number of columns
+n_cols <- ncol(mtcars)
+
+# 2. Empty storage vector 
+col_classes <- vector("character", n_cols)
+
+# 3. Loop through columns
+for (i in seq_len(n_cols)) {
+  # 4a. Extract column
+  current_col <- mtcars[[i]]
+  # 4b. Get class
+  current_class <- class(current_col)
+  # 4c. Store result
+  col_classes[i] <- current_class
+}
+
+col_classes
 
 ```
 
@@ -170,8 +190,52 @@ map_int(diamonds |> select(!where(is.numeric)), n_distinct)
     
 Once you've done that with `map()`, write a `for` loop to achieve the same result. Which do you prefer in terms of ease of code writing and readability?
 
+```{r}
+library(dplyr)
+library(purrr)
+library(tibble)
+
+summ_stats <- function(x) {
+  tibble(
+    mean   = mean(x, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    sd     = sd(x, na.rm = TRUE),
+    IQR    = IQR(x, na.rm = TRUE)
+  )
+}
+
+diamonds_num <- diamonds %>%
+  select(where(is.numeric))
+
+stats_list <- map(diamonds_num, summ_stats)
+
+stats_df <- bind_rows(stats_list, .id = "variable")
+
+stats_df
+
+```
+
+```{r}
+n_cols <- ncol(diamonds_num)
+
+stats_list_loop <- vector("list", n_cols)
+
+for (i in seq_len(n_cols)) {
+  
+  current_col <- diamonds_num[[i]]
+  
+  stats_list_loop[[i]] <- summ_stats(current_col)
+}
+
+# Combine and add names
+stats_df_loop <- bind_rows(stats_list_loop)
+stats_df_loop$variable <- colnames(diamonds_num)
+
+stats_df_loop
+```
 
 
+I prefer for_loops here just because I've got a lot more experience with them so it makes more sense to me but map is probably the more efficient way to write the code if you are equally good at both.
 
 ## Iteration with `map2` or `pmap` 
 
@@ -238,6 +302,21 @@ pmap_chr(string_data, str_replace_all, string = "ppp nnn hhh")
 
 ```{r}
 
+tibble(
+  string = c("statistics", "regression", "modeling"),
+  start  = c(1, 2, 3),
+  end    = c(4, 5, 6)
+) |>
+  pmap_chr(str_sub)
+
+
+tibble(
+  string = "datascience",
+  start  = c(1, 2, 3, 4),
+  end    = c(4, 6, 8, 11)
+) |>
+  pmap_chr(str_sub)
+
 ```
 
 2. Last class we worked on an extended exercise where our goal was to write a series of functions and a `for` loop to repeat linear model fitting under different "settings" (removal of outliers, model formula choice). 
@@ -276,8 +355,7 @@ fit_model <- function(data, mod_formula, remove_outliers) {
 }
 
 # use pmap()
-
-
+df_arg_combos |> mutate(fit_mod = pmap(df_arg_combos, fit_model, data = diamonds))
 
 
 ```
