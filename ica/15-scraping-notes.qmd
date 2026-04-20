@@ -189,22 +189,15 @@ get_news_page <- function(url) {
   
 scrape_x_pages_nih <- function(x) {
   base_url <- "https://www.nih.gov/news-events/news-releases"
-  results <- list()                        
-  
-  for (i in 0:(x - 1)) {                  
-    if (i == 0) {
-      page_url <- base_url                 
-    } else {
-      page_url <- paste0(base_url, "?page=", i)
-    }
-    
-    results[[i + 1]] <- get_news_page(page_url)  
+  x <- x-1
+  for (i in x) {
+    page_url <- "https://www.nih.gov/news-events/news-releases" + "?page=" + "x"
+    get_news_page(page_url)
+    x <- x + 1
   }
-  
-  bind_rows(results)                       
 }
   
-scrape_x_pages_nih(3)
+  
 ```
 
 

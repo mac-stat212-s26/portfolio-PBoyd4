@@ -90,6 +90,7 @@ book:
       - ica/14-apis-2/14-apis-2-notes.qmd
       - ica/15-scraping-notes.qmd
       - ica/16-databases-notes.qmd
+      - ica/18-interactive-viz-notes.qmd
 
     - part: "Extras"
       chapters:
