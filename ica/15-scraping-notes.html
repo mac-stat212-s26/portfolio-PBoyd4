@@ -463,6 +463,11 @@ cookieconsent.run({
   <a href="../ica/16-databases-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16 Databases and SQL</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/18-interactive-viz-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18 Interactive Viz</span></a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -684,38 +689,14 @@ Stop to reflect
 <span id="cb5-14"><a href="#cb5-14"></a>  </span>
 <span id="cb5-15"><a href="#cb5-15"></a>scrape_x_pages_nih <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb5-16"><a href="#cb5-16"></a>  base_url <span class="ot">&lt;-</span> <span class="st">"https://www.nih.gov/news-events/news-releases"</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>  results <span class="ot">&lt;-</span> <span class="fu">list</span>()                        </span>
-<span id="cb5-18"><a href="#cb5-18"></a>  </span>
-<span id="cb5-19"><a href="#cb5-19"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>(x <span class="sc">-</span> <span class="dv">1</span>)) {                  </span>
-<span id="cb5-20"><a href="#cb5-20"></a>    <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb5-21"><a href="#cb5-21"></a>      page_url <span class="ot">&lt;-</span> base_url                 </span>
-<span id="cb5-22"><a href="#cb5-22"></a>    } <span class="cf">else</span> {</span>
-<span id="cb5-23"><a href="#cb5-23"></a>      page_url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(base_url, <span class="st">"?page="</span>, i)</span>
-<span id="cb5-24"><a href="#cb5-24"></a>    }</span>
-<span id="cb5-25"><a href="#cb5-25"></a>    </span>
-<span id="cb5-26"><a href="#cb5-26"></a>    results[[i <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">get_news_page</span>(page_url)  </span>
-<span id="cb5-27"><a href="#cb5-27"></a>  }</span>
-<span id="cb5-28"><a href="#cb5-28"></a>  </span>
-<span id="cb5-29"><a href="#cb5-29"></a>  <span class="fu">bind_rows</span>(results)                       </span>
-<span id="cb5-30"><a href="#cb5-30"></a>}</span>
-<span id="cb5-31"><a href="#cb5-31"></a>  </span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="fu">scrape_x_pages_nih</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 30 × 2
-   title                                                           date_abstract
-   &lt;chr&gt;                                                           &lt;chr&gt;        
- 1 "NIH-funded breakthrough shrinks CRISPR for precision delivery… "April 13, 2…
- 2 "Low-cost care model reduces blood pressure in high-risk popul… "April 8, 20…
- 3 "NIH researchers&nbsp;discover&nbsp;pain-relieving&nbsp;drug&nbsp;with&nbsp;minimal add… "April 1, 20…
- 4 "NIH awards&nbsp;top&nbsp;scientific teams for innovations linking nutri… "March 30, 2…
- 5 "Dr. Elisabeth Armstrong&nbsp;named&nbsp;NIH Chief of Staff&nbsp;"             "March 30, 2…
- 6 "Chronic inflammation leaves long-lasting impression on gut st… "March 25, 2…
- 7 "NIH&nbsp;invests $150 million in human-based research to reduce&nbsp;us… "March 18, 2…
- 8 "Clinical trial results support use of weekly extended-release… "March 16, 2…
- 9 "Researchers&nbsp;develop&nbsp;AI&nbsp;tool&nbsp;to&nbsp;predict&nbsp;patients at&nbsp;risk of&nbsp;in… "March 13, 2…
-10 "Automated CT scan analysis could fast-track clinical assessme… "March 4, 20…
-# ℹ 20 more rows</code></pre>
-</div>
+<span id="cb5-17"><a href="#cb5-17"></a>  x <span class="ot">&lt;-</span> x<span class="dv">-1</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> x) {</span>
+<span id="cb5-19"><a href="#cb5-19"></a>    page_url <span class="ot">&lt;-</span> <span class="st">"https://www.nih.gov/news-events/news-releases"</span> <span class="sc">+</span> <span class="st">"?page="</span> <span class="sc">+</span> <span class="st">"x"</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>    <span class="fu">get_news_page</span>(page_url)</span>
+<span id="cb5-21"><a href="#cb5-21"></a>    x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a>  }</span>
+<span id="cb5-23"><a href="#cb5-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section><section id="example-2-nih-stem-teaching-resources" class="level2"><h2 class="anchored" data-anchor-id="example-2-nih-stem-teaching-resources">Example 2: NIH STEM Teaching Resources</h2>
 <p>Let’s look at a more complex example with the <a href="https://science.education.nih.gov/">NIH STEM Teaching Resources webpage</a>.</p>
@@ -1215,232 +1196,225 @@ Stop to reflect
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">---</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="an">title:</span><span class="co"> "15 Web scraping"</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">---</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="fu">## 🧩 Learning Goals</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a>By the end of this lesson, you should be able to:</span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="ss">- </span>Use CSS Selectors and the Selector Gadget tool to locate data of interest within a webpage</span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="ss">- </span>Use the <span class="in">`html_elements()`</span>, <span class="in">`html_text()`</span>, and  <span class="in">`html_attr()`</span> functions within the <span class="in">`rvest`</span> packages to scrape data from webpage using CSS selectors.</span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="in">```{r setup_15, echo=FALSE, message=FALSE}</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="in">```</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a></span>
-<span id="cb7-17"><a href="#cb7-17"></a></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="fu">## When to Use</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a></span>
-<span id="cb7-20"><a href="#cb7-20"></a>We have talked about how to acquire data from APIs. Whenever an API is available for your project, you should default to getting data from the API.  Sometimes an API will not be available, and **web scraping** is another means of getting data.</span>
-<span id="cb7-21"><a href="#cb7-21"></a></span>
-<span id="cb7-22"><a href="#cb7-22"></a>Web scraping describes the use of code to extract information displayed on a web page. In R, the <span class="in">`rvest`</span> package offers tools for scraping. (<span class="in">`rvest`</span> is meant to sound like "harvest".)</span>
-<span id="cb7-23"><a href="#cb7-23"></a></span>
-<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">## Ethics</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a></span>
-<span id="cb7-26"><a href="#cb7-26"></a><span class="in">`robots.txt`</span> is a file that some websites includes to clarify what can and cannot be scraped in addition to other constraints about scraping. When a website includes this file, we need to comply with the information in it for moral and legal reasons.</span>
-<span id="cb7-27"><a href="#cb7-27"></a></span>
-<span id="cb7-28"><a href="#cb7-28"></a></span>
-<span id="cb7-29"><a href="#cb7-29"></a>We will look through the information in ZenRows Tutorial <span class="co">[</span><span class="ot">How to Read robots.txt for Web Scraping</span><span class="co">](https://www.zenrows.com/blog/robots-txt-web-scraping)</span> and apply this to the <span class="co">[</span><span class="ot">NIH robots.txt file</span><span class="co">](https://www.nih.gov/robots.txt)</span>.</span>
-<span id="cb7-30"><a href="#cb7-30"></a></span>
-<span id="cb7-31"><a href="#cb7-31"></a></span>
-<span id="cb7-32"><a href="#cb7-32"></a>From our investigation of the NIH <span class="in">`robots.txt`</span>, we learn:</span>
-<span id="cb7-33"><a href="#cb7-33"></a></span>
-<span id="cb7-34"><a href="#cb7-34"></a><span class="ss">- </span><span class="in">`User-agent: *`</span>: Anyone is allowed to scrape</span>
-<span id="cb7-35"><a href="#cb7-35"></a><span class="ss">- </span>No <span class="in">`Crawl-delay`</span> entry: no restriction on the scraping speed</span>
-<span id="cb7-36"><a href="#cb7-36"></a><span class="ss">- </span>No <span class="in">`Visit-time`</span> entry: no restrictions on time of day that scraping is allowed</span>
-<span id="cb7-37"><a href="#cb7-37"></a><span class="ss">- </span>No <span class="in">`Request-rate`</span> entry: no restrictions on simultaneous requests</span>
-<span id="cb7-38"><a href="#cb7-38"></a><span class="ss">- </span>No mention of <span class="in">`?page=`</span>, <span class="in">`news-events`</span>, <span class="in">`news-releases`</span>, or <span class="in">`https://science.education.nih.gov/`</span> in the <span class="in">`Disallow`</span> sections. (This is what we want to scrape today.)</span>
-<span id="cb7-39"><a href="#cb7-39"></a></span>
-<span id="cb7-40"><a href="#cb7-40"></a></span>
-<span id="cb7-41"><a href="#cb7-41"></a>**Further considerations**</span>
-<span id="cb7-42"><a href="#cb7-42"></a></span>
-<span id="cb7-43"><a href="#cb7-43"></a>The Towards Data Science article <span class="co">[</span><span class="ot">Ethics in Web Scraping--not available as of 10/24/2025 :(</span><span class="co">](https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01)</span> describes some good principles to ensure that we are valuing the labor that website owners invested to provide data and creating good from the information we do scrape.</span>
-<span id="cb7-44"><a href="#cb7-44"></a></span>
-<span id="cb7-45"><a href="#cb7-45"></a></span>
-<span id="cb7-46"><a href="#cb7-46"></a><span class="fu">## HTML structure</span></span>
-<span id="cb7-47"><a href="#cb7-47"></a></span>
-<span id="cb7-48"><a href="#cb7-48"></a>HTML (hypertext markup language) is the formatting language used to create webpages. Let's look at the core parts of HTML from the <span class="co">[</span><span class="ot">rvest vignette</span><span class="co">](https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html)</span>.</span>
-<span id="cb7-49"><a href="#cb7-49"></a></span>
-<span id="cb7-50"><a href="#cb7-50"></a></span>
-<span id="cb7-51"><a href="#cb7-51"></a>Key HTML Concepts:</span>
-<span id="cb7-52"><a href="#cb7-52"></a></span>
-<span id="cb7-53"><a href="#cb7-53"></a><span class="ss">- </span>**Elements** which consist of a start tag (e.g. <span class="in">`&lt;tag&gt;`</span>) and end with an end tag (e.g. <span class="in">`&lt;/tag&gt;`</span>) </span>
-<span id="cb7-54"><a href="#cb7-54"></a><span class="ss">- </span>Optional **attributes** (<span class="in">`id='first'`</span>) within the start tag</span>
-<span id="cb7-55"><a href="#cb7-55"></a><span class="ss">- </span>**Contents** of an element </span>
-<span id="cb7-56"><a href="#cb7-56"></a></span>
-<span id="cb7-57"><a href="#cb7-57"></a></span>
-<span id="cb7-58"><a href="#cb7-58"></a>Key CSS Concepts:</span>
-<span id="cb7-59"><a href="#cb7-59"></a></span>
-<span id="cb7-60"><a href="#cb7-60"></a><span class="ss">- </span>To identify part of the html code, we can use the tag type (e.g. <span class="in">`&lt;a&gt;`</span>, <span class="in">`&lt;h1&gt;`</span>, <span class="in">`&lt;p&gt;`</span>) and class or id attributes.</span>
-<span id="cb7-61"><a href="#cb7-61"></a><span class="ss">- </span>Each element can have a **class** attribute and/or an **id** attribute.</span>
-<span id="cb7-62"><a href="#cb7-62"></a><span class="ss">- </span>We can also identify parts of the code based on whether they are children or descendants of other elements, in that they are contained within an element. We won't need this for simple applications.</span>
-<span id="cb7-63"><a href="#cb7-63"></a></span>
-<span id="cb7-64"><a href="#cb7-64"></a></span>
-<span id="cb7-65"><a href="#cb7-65"></a><span class="fu">## Finding CSS Selectors</span></span>
-<span id="cb7-66"><a href="#cb7-66"></a></span>
-<span id="cb7-67"><a href="#cb7-67"></a>In order to gather information from a webpage, we must learn the language used to identify patterns of specific information. For example, on the <span class="co">[</span><span class="ot">NIH News Releases page</span><span class="co">](https://www.nih.gov/news-events/news-releases)</span>, we can see that the data is represented in a consistent pattern of image + title + abstract.</span>
-<span id="cb7-68"><a href="#cb7-68"></a></span>
-<span id="cb7-69"><a href="#cb7-69"></a></span>
-<span id="cb7-70"><a href="#cb7-70"></a>We will identify data in a web page using a pattern matching language called <span class="co">[</span><span class="ot">CSS Selectors</span><span class="co">](https://css-tricks.com/how-css-selectors-work/)</span> that can refer to specific patterns in HTML, the language used to write web pages.</span>
-<span id="cb7-71"><a href="#cb7-71"></a></span>
-<span id="cb7-72"><a href="#cb7-72"></a>For example:</span>
-<span id="cb7-73"><a href="#cb7-73"></a></span>
-<span id="cb7-74"><a href="#cb7-74"></a><span class="ss">- </span>Selecting by element/tag type:</span>
-<span id="cb7-75"><a href="#cb7-75"></a><span class="ss">    - </span><span class="in">`"a"`</span> selects all hyperlinks in a webpage ("a" represents "anchor" links in HTML)</span>
-<span id="cb7-76"><a href="#cb7-76"></a><span class="ss">    - </span><span class="in">`"p"`</span> selects all paragraph elements</span>
-<span id="cb7-77"><a href="#cb7-77"></a><span class="ss">- </span>Selecting by class and ID:</span>
-<span id="cb7-78"><a href="#cb7-78"></a><span class="ss">    - </span><span class="in">`".description"`</span> selects all elements with <span class="in">`class`</span> equal to "description"</span>
-<span id="cb7-79"><a href="#cb7-79"></a><span class="ss">        - </span>The <span class="in">`.`</span> at the beginning is what signifies <span class="in">`class`</span> selection.</span>
-<span id="cb7-80"><a href="#cb7-80"></a><span class="ss">        - </span>This is one of the most common CSS selectors for scraping because in HTML, the <span class="in">`class`</span> attribute is extremely commonly used to format webpage elements. (Any number of HTML elements can have the same <span class="in">`class`</span>, which is not true for the <span class="in">`id`</span> attribute.)</span>
-<span id="cb7-81"><a href="#cb7-81"></a><span class="ss">    - </span><span class="in">`"#mainTitle"`</span> selects the SINGLE element with **id** equal to "mainTitle"</span>
-<span id="cb7-82"><a href="#cb7-82"></a><span class="ss">        - </span>The <span class="in">`#`</span> at the beginning is what signifies <span class="in">`id`</span> selection.</span>
-<span id="cb7-83"><a href="#cb7-83"></a></span>
-<span id="cb7-84"><a href="#cb7-84"></a></span>
-<span id="cb7-85"><a href="#cb7-85"></a><span class="in">```html</span></span>
-<span id="cb7-86"><a href="#cb7-86"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"title"</span><span class="op">&gt;</span>Title of resource <span class="dv">1</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
-<span id="cb7-87"><a href="#cb7-87"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"description"</span><span class="op">&gt;</span>Description of resource <span class="dv">1</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
-<span id="cb7-88"><a href="#cb7-88"></a></span>
-<span id="cb7-89"><a href="#cb7-89"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"title"</span><span class="op">&gt;</span>Title of resource <span class="dv">2</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
-<span id="cb7-90"><a href="#cb7-90"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"description"</span><span class="op">&gt;</span>Description of resource <span class="dv">2</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
-<span id="cb7-91"><a href="#cb7-91"></a><span class="in">```</span></span>
-<span id="cb7-92"><a href="#cb7-92"></a></span>
-<span id="cb7-93"><a href="#cb7-93"></a>**Warning**: Websites change often! So if you are going to scrape a lot of data, it is probably worthwhile to save and date a copy of the website (File &gt; Save As). Otherwise, you may return after some time and your scraping code will include all of the wrong CSS selectors.</span>
-<span id="cb7-94"><a href="#cb7-94"></a></span>
-<span id="cb7-95"><a href="#cb7-95"></a></span>
-<span id="cb7-96"><a href="#cb7-96"></a>Although you can learn how to use CSS Selectors by hand (<span class="co">[</span><span class="ot">CSS Selectors</span><span class="co">](https://css-tricks.com/how-css-selectors-work/)</span>), we will use a shortcut by installing the <span class="co">[</span><span class="ot">Selector Gadget</span><span class="co">](http://selectorgadget.com/)</span> tool.</span>
-<span id="cb7-97"><a href="#cb7-97"></a></span>
-<span id="cb7-98"><a href="#cb7-98"></a><span class="ss">- </span>There is a version available for Chrome--add it to Chrome via the <span class="co">[</span><span class="ot">Chome Web Store</span><span class="co">](https://chromewebstore.google.com/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb)</span>.</span>
-<span id="cb7-99"><a href="#cb7-99"></a><span class="ss">    - </span>Make sure to pin the extension to the menu bar. (Click the 3 dots &gt; Extensions &gt; Manage extensions. Click the "Details" button under SelectorGadget and toggle the "Pin to toolbar" option.)</span>
-<span id="cb7-100"><a href="#cb7-100"></a><span class="ss">- </span>There is also a version that can be saved as a bookmark in the browser--see <span class="co">[</span><span class="ot">here</span><span class="co">](https://rvest.tidyverse.org/articles/selectorgadget.html)</span>.</span>
-<span id="cb7-101"><a href="#cb7-101"></a></span>
-<span id="cb7-102"><a href="#cb7-102"></a>Let's watch the Selector Gadget <span class="co">[</span><span class="ot">tutorial video</span><span class="co">](http://selectorgadget.com/)</span> before proceeding.</span>
-<span id="cb7-103"><a href="#cb7-103"></a></span>
-<span id="cb7-104"><a href="#cb7-104"></a><span class="fu">## Example 1: NIH New Releases</span></span>
-<span id="cb7-105"><a href="#cb7-105"></a></span>
-<span id="cb7-106"><a href="#cb7-106"></a>Head over to the <span class="co">[</span><span class="ot">NIH News Releases page</span><span class="co">](https://www.nih.gov/news-events/news-releases)</span>. </span>
-<span id="cb7-107"><a href="#cb7-107"></a></span>
-<span id="cb7-108"><a href="#cb7-108"></a>Click the Selector Gadget extension icon or bookmark button. </span>
-<span id="cb7-109"><a href="#cb7-109"></a></span>
-<span id="cb7-110"><a href="#cb7-110"></a>As you mouse over the webpage, different parts will be highlighted in orange. </span>
-<span id="cb7-111"><a href="#cb7-111"></a></span>
-<span id="cb7-112"><a href="#cb7-112"></a>Click on the title of the first news release. </span>
-<span id="cb7-113"><a href="#cb7-113"></a></span>
-<span id="cb7-114"><a href="#cb7-114"></a>You'll notice that the Selector Gadget information in the lower right describes what you clicked on.</span>
-<span id="cb7-115"><a href="#cb7-115"></a></span>
-<span id="cb7-116"><a href="#cb7-116"></a>Scroll through the page to verify that only the information you intend (the description paragraph) is selected. </span>
-<span id="cb7-117"><a href="#cb7-117"></a></span>
-<span id="cb7-118"><a href="#cb7-118"></a><span class="ss">- </span>The selector panel shows the CSS selector (<span class="in">`.thumbnail-teaser__heading`</span>) and the number of matches for that CSS selector (10). (You may have to be careful with your clicking--there are two overlapping boxes, and clicking on the link of the title can lead to the CSS selector of "a".)</span>
-<span id="cb7-119"><a href="#cb7-119"></a></span>
-<span id="cb7-120"><a href="#cb7-120"></a>**Exercise:** Repeat the process above to find the correct selectors for the following fields. Make sure that each matches 10 results:</span>
-<span id="cb7-121"><a href="#cb7-121"></a></span>
-<span id="cb7-122"><a href="#cb7-122"></a><span class="ss">- </span>The publication date</span>
-<span id="cb7-123"><a href="#cb7-123"></a><span class="ss">- </span>The article abstract paragraph (which will also include the publication date)</span>
-<span id="cb7-124"><a href="#cb7-124"></a></span>
-<span id="cb7-125"><a href="#cb7-125"></a></span>
-<span id="cb7-126"><a href="#cb7-126"></a><span class="fu">## Retrieving Data Using `rvest` and CSS Selectors</span></span>
-<span id="cb7-127"><a href="#cb7-127"></a></span>
-<span id="cb7-128"><a href="#cb7-128"></a>Now that we have identified CSS selectors for the information we need, let's fetch the data using the <span class="in">`rvest`</span> package.</span>
-<span id="cb7-129"><a href="#cb7-129"></a></span>
-<span id="cb7-130"><a href="#cb7-130"></a><span class="in">```{r read_html}</span></span>
-<span id="cb7-131"><a href="#cb7-131"></a>nih <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://www.nih.gov/news-events/news-releases"</span>)</span>
-<span id="cb7-132"><a href="#cb7-132"></a><span class="in">```</span></span>
-<span id="cb7-133"><a href="#cb7-133"></a></span>
-<span id="cb7-134"><a href="#cb7-134"></a>Once the webpage is loaded, we can retrieve data using the CSS selectors we specified earlier. The following code retrieves the article titles:</span>
-<span id="cb7-135"><a href="#cb7-135"></a></span>
-<span id="cb7-136"><a href="#cb7-136"></a><span class="in">```{r html_elements_text}</span></span>
-<span id="cb7-137"><a href="#cb7-137"></a><span class="co"># Retrieve and inspect article titles</span></span>
-<span id="cb7-138"><a href="#cb7-138"></a>article_titles <span class="ot">&lt;-</span> nih <span class="sc">|&gt;</span></span>
-<span id="cb7-139"><a href="#cb7-139"></a>    <span class="fu">html_elements</span>(<span class="st">".thumbnail-teaser__heading"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-140"><a href="#cb7-140"></a>    <span class="fu">html_text</span>()</span>
-<span id="cb7-141"><a href="#cb7-141"></a><span class="fu">head</span>(article_titles)</span>
-<span id="cb7-142"><a href="#cb7-142"></a><span class="in">```</span></span>
-<span id="cb7-143"><a href="#cb7-143"></a></span>
-<span id="cb7-144"><a href="#cb7-144"></a>**Exercise:** Our goal is to get article titles, publication dates, and abstract text for news releases across several pages of results. </span>
-<span id="cb7-145"><a href="#cb7-145"></a></span>
-<span id="cb7-146"><a href="#cb7-146"></a>**Before doing any coding,** plan your approach. </span>
-<span id="cb7-147"><a href="#cb7-147"></a></span>
-<span id="cb7-148"><a href="#cb7-148"></a><span class="ss">- </span>What functions will you write? </span>
-<span id="cb7-149"><a href="#cb7-149"></a>function to read over website text and scrape several pages article titles, publication dates, and abstract text and then create df with tibble. function with for loop that saves each page of info</span>
-<span id="cb7-150"><a href="#cb7-150"></a></span>
-<span id="cb7-151"><a href="#cb7-151"></a><span class="ss">- </span>What arguments will they have? </span>
-<span id="cb7-152"><a href="#cb7-152"></a>html_elements, html_text. the path to the titles, publication dates, and abstract text across several pages tibble to create dataset with new variables</span>
-<span id="cb7-153"><a href="#cb7-153"></a></span>
-<span id="cb7-154"><a href="#cb7-154"></a><span class="ss">- </span>How will you use your functions? </span>
-<span id="cb7-155"><a href="#cb7-155"></a></span>
-<span id="cb7-156"><a href="#cb7-156"></a>Consult with your peers and compare plans.</span>
-<span id="cb7-157"><a href="#cb7-157"></a></span>
-<span id="cb7-158"><a href="#cb7-158"></a>We want one final df with article titles, publication dates, and abstract text for news releases across several pages of results. To do this, we need an html_elements function that has the .description for each element we need and html_text to actually write this out.</span>
-<span id="cb7-159"><a href="#cb7-159"></a></span>
-<span id="cb7-160"><a href="#cb7-160"></a></span>
-<span id="cb7-161"><a href="#cb7-161"></a>::: {.callout-tip title="Stop to reflect"}</span>
-<span id="cb7-162"><a href="#cb7-162"></a>Write a few observations about your comfort/confidence in this planning exercise. As you proceed through the implementation of this plan in the next steps, make notes about any places you struggled, were uncertain, or benefited from peer input.</span>
-<span id="cb7-163"><a href="#cb7-163"></a>:::</span>
-<span id="cb7-164"><a href="#cb7-164"></a></span>
-<span id="cb7-165"><a href="#cb7-165"></a>**Exercise:** Carry out your plan to get the article title, publication date, and abstract text for the first 5 pages of news releases in a single data frame. You will need to write at least one function, and you will need iteration--Start with an appropriate <span class="in">`map()`</span> function from <span class="in">`purrr`</span>. If you have time, also try to use a <span class="in">`for`</span> loop instead.</span>
-<span id="cb7-166"><a href="#cb7-166"></a></span>
-<span id="cb7-167"><a href="#cb7-167"></a>Notes:</span>
-<span id="cb7-168"><a href="#cb7-168"></a></span>
-<span id="cb7-169"><a href="#cb7-169"></a><span class="ss">- </span>Mouse over the page buttons at the very bottom of the news home page to see what the URLs look like.</span>
-<span id="cb7-170"><a href="#cb7-170"></a><span class="ss">- </span>The abstract should not have the publication date--use <span class="in">`stringr`</span> and regular expressions to remove the publication date.</span>
-<span id="cb7-171"><a href="#cb7-171"></a><span class="ss">- </span>If the website has <span class="in">`Crawl-delay: x`</span> in its <span class="in">`robots.txt`</span>, include <span class="in">`Sys.sleep(x)`</span> in your function to respect that.</span>
-<span id="cb7-172"><a href="#cb7-172"></a><span class="ss">- </span>Recall that <span class="in">`bind_rows()`</span> from <span class="in">`dplyr`</span> and <span class="in">`list_rbind()`</span> from <span class="in">`purrr`</span> takes a list of data frames and stacks them on top of each other.</span>
-<span id="cb7-173"><a href="#cb7-173"></a></span>
-<span id="cb7-174"><a href="#cb7-174"></a></span>
-<span id="cb7-177"><a href="#cb7-177"></a><span class="in">```{r}</span></span>
-<span id="cb7-178"><a href="#cb7-178"></a>get_text <span class="ot">&lt;-</span> <span class="cf">function</span>(page, css_selector_path) {</span>
-<span id="cb7-179"><a href="#cb7-179"></a>  page <span class="sc">|&gt;</span> </span>
-<span id="cb7-180"><a href="#cb7-180"></a>    <span class="fu">html_elements</span>(css_selector_path) <span class="sc">|&gt;</span> </span>
-<span id="cb7-181"><a href="#cb7-181"></a>    <span class="fu">html_text</span>()</span>
-<span id="cb7-182"><a href="#cb7-182"></a>}</span>
-<span id="cb7-183"><a href="#cb7-183"></a></span>
-<span id="cb7-184"><a href="#cb7-184"></a>get_news_page <span class="ot">&lt;-</span> <span class="cf">function</span>(url) {</span>
-<span id="cb7-185"><a href="#cb7-185"></a>  page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
-<span id="cb7-186"><a href="#cb7-186"></a>  article_titles <span class="ot">&lt;-</span> <span class="fu">get_text</span>(page, <span class="st">".thumbnail-teaser__heading"</span>)</span>
-<span id="cb7-187"><a href="#cb7-187"></a>  abstract_text <span class="ot">&lt;-</span> <span class="fu">get_text</span>(page, <span class="st">".thumbnail-teaser__description"</span>)</span>
-<span id="cb7-188"><a href="#cb7-188"></a>  </span>
-<span id="cb7-189"><a href="#cb7-189"></a>  <span class="fu">tibble</span>(<span class="at">title =</span> article_titles, <span class="at">date_abstract =</span> abstract_text) </span>
-<span id="cb7-190"><a href="#cb7-190"></a>}</span>
-<span id="cb7-191"><a href="#cb7-191"></a>  </span>
-<span id="cb7-192"><a href="#cb7-192"></a>scrape_x_pages_nih <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb7-193"><a href="#cb7-193"></a>  base_url <span class="ot">&lt;-</span> <span class="st">"https://www.nih.gov/news-events/news-releases"</span></span>
-<span id="cb7-194"><a href="#cb7-194"></a>  results <span class="ot">&lt;-</span> <span class="fu">list</span>()                        </span>
-<span id="cb7-195"><a href="#cb7-195"></a>  </span>
-<span id="cb7-196"><a href="#cb7-196"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>(x <span class="sc">-</span> <span class="dv">1</span>)) {                  </span>
-<span id="cb7-197"><a href="#cb7-197"></a>    <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb7-198"><a href="#cb7-198"></a>      page_url <span class="ot">&lt;-</span> base_url                 </span>
-<span id="cb7-199"><a href="#cb7-199"></a>    } <span class="cf">else</span> {</span>
-<span id="cb7-200"><a href="#cb7-200"></a>      page_url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(base_url, <span class="st">"?page="</span>, i)</span>
-<span id="cb7-201"><a href="#cb7-201"></a>    }</span>
-<span id="cb7-202"><a href="#cb7-202"></a>    </span>
-<span id="cb7-203"><a href="#cb7-203"></a>    results[[i <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">get_news_page</span>(page_url)  </span>
-<span id="cb7-204"><a href="#cb7-204"></a>  }</span>
-<span id="cb7-205"><a href="#cb7-205"></a>  </span>
-<span id="cb7-206"><a href="#cb7-206"></a>  <span class="fu">bind_rows</span>(results)                       </span>
-<span id="cb7-207"><a href="#cb7-207"></a>}</span>
-<span id="cb7-208"><a href="#cb7-208"></a>  </span>
-<span id="cb7-209"><a href="#cb7-209"></a><span class="fu">scrape_x_pages_nih</span>(<span class="dv">3</span>)</span>
-<span id="cb7-210"><a href="#cb7-210"></a><span class="in">```</span></span>
-<span id="cb7-211"><a href="#cb7-211"></a></span>
-<span id="cb7-212"><a href="#cb7-212"></a></span>
-<span id="cb7-213"><a href="#cb7-213"></a><span class="fu">## Example 2: NIH STEM Teaching Resources</span></span>
-<span id="cb7-214"><a href="#cb7-214"></a></span>
-<span id="cb7-215"><a href="#cb7-215"></a>Let's look at a more complex example with the <span class="co">[</span><span class="ot">NIH STEM Teaching Resources webpage</span><span class="co">](https://science.education.nih.gov/)</span>.</span>
-<span id="cb7-216"><a href="#cb7-216"></a></span>
-<span id="cb7-217"><a href="#cb7-217"></a><span class="ss">-  </span>Using Selector Gadget to select the resource titles can be tricky if we can only get one resource title at a time.</span>
-<span id="cb7-218"><a href="#cb7-218"></a><span class="ss">- </span>In Chrome, you can right click part of a web page and click "Inspect". This opens up Chrome's Developer Tools. Mousing over the HTML in the top right panel highlights the corresponding part of the web page.</span>
-<span id="cb7-219"><a href="#cb7-219"></a><span class="ss">    - </span>For non-Chrome browsers, use the Help menu to search for Developer Tools.</span>
-<span id="cb7-220"><a href="#cb7-220"></a></span>
-<span id="cb7-221"><a href="#cb7-221"></a>The underlying HTML used to create a web page is also called the page **source code** or **page source**. </span>
-<span id="cb7-222"><a href="#cb7-222"></a></span>
-<span id="cb7-223"><a href="#cb7-223"></a>We learn from this that the resource titles are <span class="in">`&lt;h4&gt;`</span> headings that have the class <span class="in">`resource-title`</span>. </span>
-<span id="cb7-224"><a href="#cb7-224"></a></span>
-<span id="cb7-225"><a href="#cb7-225"></a>We can infer from this that <span class="in">`.resource-title`</span> would be the CSS selector for the resource titles.</span>
-<span id="cb7-226"><a href="#cb7-226"></a><span class="fu">## Done!</span></span>
-<span id="cb7-227"><a href="#cb7-227"></a></span>
-<span id="cb7-228"><a href="#cb7-228"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span>
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">---</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="an">title:</span><span class="co"> "15 Web scraping"</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">---</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">## 🧩 Learning Goals</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a>By the end of this lesson, you should be able to:</span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="ss">- </span>Use CSS Selectors and the Selector Gadget tool to locate data of interest within a webpage</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="ss">- </span>Use the <span class="in">`html_elements()`</span>, <span class="in">`html_text()`</span>, and  <span class="in">`html_attr()`</span> functions within the <span class="in">`rvest`</span> packages to scrape data from webpage using CSS selectors.</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="in">```{r setup_15, echo=FALSE, message=FALSE}</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="in">```</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="fu">## When to Use</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a></span>
+<span id="cb6-20"><a href="#cb6-20"></a>We have talked about how to acquire data from APIs. Whenever an API is available for your project, you should default to getting data from the API.  Sometimes an API will not be available, and **web scraping** is another means of getting data.</span>
+<span id="cb6-21"><a href="#cb6-21"></a></span>
+<span id="cb6-22"><a href="#cb6-22"></a>Web scraping describes the use of code to extract information displayed on a web page. In R, the <span class="in">`rvest`</span> package offers tools for scraping. (<span class="in">`rvest`</span> is meant to sound like "harvest".)</span>
+<span id="cb6-23"><a href="#cb6-23"></a></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="fu">## Ethics</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="in">`robots.txt`</span> is a file that some websites includes to clarify what can and cannot be scraped in addition to other constraints about scraping. When a website includes this file, we need to comply with the information in it for moral and legal reasons.</span>
+<span id="cb6-27"><a href="#cb6-27"></a></span>
+<span id="cb6-28"><a href="#cb6-28"></a></span>
+<span id="cb6-29"><a href="#cb6-29"></a>We will look through the information in ZenRows Tutorial <span class="co">[</span><span class="ot">How to Read robots.txt for Web Scraping</span><span class="co">](https://www.zenrows.com/blog/robots-txt-web-scraping)</span> and apply this to the <span class="co">[</span><span class="ot">NIH robots.txt file</span><span class="co">](https://www.nih.gov/robots.txt)</span>.</span>
+<span id="cb6-30"><a href="#cb6-30"></a></span>
+<span id="cb6-31"><a href="#cb6-31"></a></span>
+<span id="cb6-32"><a href="#cb6-32"></a>From our investigation of the NIH <span class="in">`robots.txt`</span>, we learn:</span>
+<span id="cb6-33"><a href="#cb6-33"></a></span>
+<span id="cb6-34"><a href="#cb6-34"></a><span class="ss">- </span><span class="in">`User-agent: *`</span>: Anyone is allowed to scrape</span>
+<span id="cb6-35"><a href="#cb6-35"></a><span class="ss">- </span>No <span class="in">`Crawl-delay`</span> entry: no restriction on the scraping speed</span>
+<span id="cb6-36"><a href="#cb6-36"></a><span class="ss">- </span>No <span class="in">`Visit-time`</span> entry: no restrictions on time of day that scraping is allowed</span>
+<span id="cb6-37"><a href="#cb6-37"></a><span class="ss">- </span>No <span class="in">`Request-rate`</span> entry: no restrictions on simultaneous requests</span>
+<span id="cb6-38"><a href="#cb6-38"></a><span class="ss">- </span>No mention of <span class="in">`?page=`</span>, <span class="in">`news-events`</span>, <span class="in">`news-releases`</span>, or <span class="in">`https://science.education.nih.gov/`</span> in the <span class="in">`Disallow`</span> sections. (This is what we want to scrape today.)</span>
+<span id="cb6-39"><a href="#cb6-39"></a></span>
+<span id="cb6-40"><a href="#cb6-40"></a></span>
+<span id="cb6-41"><a href="#cb6-41"></a>**Further considerations**</span>
+<span id="cb6-42"><a href="#cb6-42"></a></span>
+<span id="cb6-43"><a href="#cb6-43"></a>The Towards Data Science article <span class="co">[</span><span class="ot">Ethics in Web Scraping--not available as of 10/24/2025 :(</span><span class="co">](https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01)</span> describes some good principles to ensure that we are valuing the labor that website owners invested to provide data and creating good from the information we do scrape.</span>
+<span id="cb6-44"><a href="#cb6-44"></a></span>
+<span id="cb6-45"><a href="#cb6-45"></a></span>
+<span id="cb6-46"><a href="#cb6-46"></a><span class="fu">## HTML structure</span></span>
+<span id="cb6-47"><a href="#cb6-47"></a></span>
+<span id="cb6-48"><a href="#cb6-48"></a>HTML (hypertext markup language) is the formatting language used to create webpages. Let's look at the core parts of HTML from the <span class="co">[</span><span class="ot">rvest vignette</span><span class="co">](https://cran.r-project.org/web/packages/rvest/vignettes/rvest.html)</span>.</span>
+<span id="cb6-49"><a href="#cb6-49"></a></span>
+<span id="cb6-50"><a href="#cb6-50"></a></span>
+<span id="cb6-51"><a href="#cb6-51"></a>Key HTML Concepts:</span>
+<span id="cb6-52"><a href="#cb6-52"></a></span>
+<span id="cb6-53"><a href="#cb6-53"></a><span class="ss">- </span>**Elements** which consist of a start tag (e.g. <span class="in">`&lt;tag&gt;`</span>) and end with an end tag (e.g. <span class="in">`&lt;/tag&gt;`</span>) </span>
+<span id="cb6-54"><a href="#cb6-54"></a><span class="ss">- </span>Optional **attributes** (<span class="in">`id='first'`</span>) within the start tag</span>
+<span id="cb6-55"><a href="#cb6-55"></a><span class="ss">- </span>**Contents** of an element </span>
+<span id="cb6-56"><a href="#cb6-56"></a></span>
+<span id="cb6-57"><a href="#cb6-57"></a></span>
+<span id="cb6-58"><a href="#cb6-58"></a>Key CSS Concepts:</span>
+<span id="cb6-59"><a href="#cb6-59"></a></span>
+<span id="cb6-60"><a href="#cb6-60"></a><span class="ss">- </span>To identify part of the html code, we can use the tag type (e.g. <span class="in">`&lt;a&gt;`</span>, <span class="in">`&lt;h1&gt;`</span>, <span class="in">`&lt;p&gt;`</span>) and class or id attributes.</span>
+<span id="cb6-61"><a href="#cb6-61"></a><span class="ss">- </span>Each element can have a **class** attribute and/or an **id** attribute.</span>
+<span id="cb6-62"><a href="#cb6-62"></a><span class="ss">- </span>We can also identify parts of the code based on whether they are children or descendants of other elements, in that they are contained within an element. We won't need this for simple applications.</span>
+<span id="cb6-63"><a href="#cb6-63"></a></span>
+<span id="cb6-64"><a href="#cb6-64"></a></span>
+<span id="cb6-65"><a href="#cb6-65"></a><span class="fu">## Finding CSS Selectors</span></span>
+<span id="cb6-66"><a href="#cb6-66"></a></span>
+<span id="cb6-67"><a href="#cb6-67"></a>In order to gather information from a webpage, we must learn the language used to identify patterns of specific information. For example, on the <span class="co">[</span><span class="ot">NIH News Releases page</span><span class="co">](https://www.nih.gov/news-events/news-releases)</span>, we can see that the data is represented in a consistent pattern of image + title + abstract.</span>
+<span id="cb6-68"><a href="#cb6-68"></a></span>
+<span id="cb6-69"><a href="#cb6-69"></a></span>
+<span id="cb6-70"><a href="#cb6-70"></a>We will identify data in a web page using a pattern matching language called <span class="co">[</span><span class="ot">CSS Selectors</span><span class="co">](https://css-tricks.com/how-css-selectors-work/)</span> that can refer to specific patterns in HTML, the language used to write web pages.</span>
+<span id="cb6-71"><a href="#cb6-71"></a></span>
+<span id="cb6-72"><a href="#cb6-72"></a>For example:</span>
+<span id="cb6-73"><a href="#cb6-73"></a></span>
+<span id="cb6-74"><a href="#cb6-74"></a><span class="ss">- </span>Selecting by element/tag type:</span>
+<span id="cb6-75"><a href="#cb6-75"></a><span class="ss">    - </span><span class="in">`"a"`</span> selects all hyperlinks in a webpage ("a" represents "anchor" links in HTML)</span>
+<span id="cb6-76"><a href="#cb6-76"></a><span class="ss">    - </span><span class="in">`"p"`</span> selects all paragraph elements</span>
+<span id="cb6-77"><a href="#cb6-77"></a><span class="ss">- </span>Selecting by class and ID:</span>
+<span id="cb6-78"><a href="#cb6-78"></a><span class="ss">    - </span><span class="in">`".description"`</span> selects all elements with <span class="in">`class`</span> equal to "description"</span>
+<span id="cb6-79"><a href="#cb6-79"></a><span class="ss">        - </span>The <span class="in">`.`</span> at the beginning is what signifies <span class="in">`class`</span> selection.</span>
+<span id="cb6-80"><a href="#cb6-80"></a><span class="ss">        - </span>This is one of the most common CSS selectors for scraping because in HTML, the <span class="in">`class`</span> attribute is extremely commonly used to format webpage elements. (Any number of HTML elements can have the same <span class="in">`class`</span>, which is not true for the <span class="in">`id`</span> attribute.)</span>
+<span id="cb6-81"><a href="#cb6-81"></a><span class="ss">    - </span><span class="in">`"#mainTitle"`</span> selects the SINGLE element with **id** equal to "mainTitle"</span>
+<span id="cb6-82"><a href="#cb6-82"></a><span class="ss">        - </span>The <span class="in">`#`</span> at the beginning is what signifies <span class="in">`id`</span> selection.</span>
+<span id="cb6-83"><a href="#cb6-83"></a></span>
+<span id="cb6-84"><a href="#cb6-84"></a></span>
+<span id="cb6-85"><a href="#cb6-85"></a><span class="in">```html</span></span>
+<span id="cb6-86"><a href="#cb6-86"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"title"</span><span class="op">&gt;</span>Title of resource <span class="dv">1</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
+<span id="cb6-87"><a href="#cb6-87"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"description"</span><span class="op">&gt;</span>Description of resource <span class="dv">1</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
+<span id="cb6-88"><a href="#cb6-88"></a></span>
+<span id="cb6-89"><a href="#cb6-89"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"title"</span><span class="op">&gt;</span>Title of resource <span class="dv">2</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
+<span id="cb6-90"><a href="#cb6-90"></a><span class="op">&lt;</span>p class<span class="op">=</span><span class="st">"description"</span><span class="op">&gt;</span>Description of resource <span class="dv">2</span><span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
+<span id="cb6-91"><a href="#cb6-91"></a><span class="in">```</span></span>
+<span id="cb6-92"><a href="#cb6-92"></a></span>
+<span id="cb6-93"><a href="#cb6-93"></a>**Warning**: Websites change often! So if you are going to scrape a lot of data, it is probably worthwhile to save and date a copy of the website (File &gt; Save As). Otherwise, you may return after some time and your scraping code will include all of the wrong CSS selectors.</span>
+<span id="cb6-94"><a href="#cb6-94"></a></span>
+<span id="cb6-95"><a href="#cb6-95"></a></span>
+<span id="cb6-96"><a href="#cb6-96"></a>Although you can learn how to use CSS Selectors by hand (<span class="co">[</span><span class="ot">CSS Selectors</span><span class="co">](https://css-tricks.com/how-css-selectors-work/)</span>), we will use a shortcut by installing the <span class="co">[</span><span class="ot">Selector Gadget</span><span class="co">](http://selectorgadget.com/)</span> tool.</span>
+<span id="cb6-97"><a href="#cb6-97"></a></span>
+<span id="cb6-98"><a href="#cb6-98"></a><span class="ss">- </span>There is a version available for Chrome--add it to Chrome via the <span class="co">[</span><span class="ot">Chome Web Store</span><span class="co">](https://chromewebstore.google.com/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb)</span>.</span>
+<span id="cb6-99"><a href="#cb6-99"></a><span class="ss">    - </span>Make sure to pin the extension to the menu bar. (Click the 3 dots &gt; Extensions &gt; Manage extensions. Click the "Details" button under SelectorGadget and toggle the "Pin to toolbar" option.)</span>
+<span id="cb6-100"><a href="#cb6-100"></a><span class="ss">- </span>There is also a version that can be saved as a bookmark in the browser--see <span class="co">[</span><span class="ot">here</span><span class="co">](https://rvest.tidyverse.org/articles/selectorgadget.html)</span>.</span>
+<span id="cb6-101"><a href="#cb6-101"></a></span>
+<span id="cb6-102"><a href="#cb6-102"></a>Let's watch the Selector Gadget <span class="co">[</span><span class="ot">tutorial video</span><span class="co">](http://selectorgadget.com/)</span> before proceeding.</span>
+<span id="cb6-103"><a href="#cb6-103"></a></span>
+<span id="cb6-104"><a href="#cb6-104"></a><span class="fu">## Example 1: NIH New Releases</span></span>
+<span id="cb6-105"><a href="#cb6-105"></a></span>
+<span id="cb6-106"><a href="#cb6-106"></a>Head over to the <span class="co">[</span><span class="ot">NIH News Releases page</span><span class="co">](https://www.nih.gov/news-events/news-releases)</span>. </span>
+<span id="cb6-107"><a href="#cb6-107"></a></span>
+<span id="cb6-108"><a href="#cb6-108"></a>Click the Selector Gadget extension icon or bookmark button. </span>
+<span id="cb6-109"><a href="#cb6-109"></a></span>
+<span id="cb6-110"><a href="#cb6-110"></a>As you mouse over the webpage, different parts will be highlighted in orange. </span>
+<span id="cb6-111"><a href="#cb6-111"></a></span>
+<span id="cb6-112"><a href="#cb6-112"></a>Click on the title of the first news release. </span>
+<span id="cb6-113"><a href="#cb6-113"></a></span>
+<span id="cb6-114"><a href="#cb6-114"></a>You'll notice that the Selector Gadget information in the lower right describes what you clicked on.</span>
+<span id="cb6-115"><a href="#cb6-115"></a></span>
+<span id="cb6-116"><a href="#cb6-116"></a>Scroll through the page to verify that only the information you intend (the description paragraph) is selected. </span>
+<span id="cb6-117"><a href="#cb6-117"></a></span>
+<span id="cb6-118"><a href="#cb6-118"></a><span class="ss">- </span>The selector panel shows the CSS selector (<span class="in">`.thumbnail-teaser__heading`</span>) and the number of matches for that CSS selector (10). (You may have to be careful with your clicking--there are two overlapping boxes, and clicking on the link of the title can lead to the CSS selector of "a".)</span>
+<span id="cb6-119"><a href="#cb6-119"></a></span>
+<span id="cb6-120"><a href="#cb6-120"></a>**Exercise:** Repeat the process above to find the correct selectors for the following fields. Make sure that each matches 10 results:</span>
+<span id="cb6-121"><a href="#cb6-121"></a></span>
+<span id="cb6-122"><a href="#cb6-122"></a><span class="ss">- </span>The publication date</span>
+<span id="cb6-123"><a href="#cb6-123"></a><span class="ss">- </span>The article abstract paragraph (which will also include the publication date)</span>
+<span id="cb6-124"><a href="#cb6-124"></a></span>
+<span id="cb6-125"><a href="#cb6-125"></a></span>
+<span id="cb6-126"><a href="#cb6-126"></a><span class="fu">## Retrieving Data Using `rvest` and CSS Selectors</span></span>
+<span id="cb6-127"><a href="#cb6-127"></a></span>
+<span id="cb6-128"><a href="#cb6-128"></a>Now that we have identified CSS selectors for the information we need, let's fetch the data using the <span class="in">`rvest`</span> package.</span>
+<span id="cb6-129"><a href="#cb6-129"></a></span>
+<span id="cb6-130"><a href="#cb6-130"></a><span class="in">```{r read_html}</span></span>
+<span id="cb6-131"><a href="#cb6-131"></a>nih <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://www.nih.gov/news-events/news-releases"</span>)</span>
+<span id="cb6-132"><a href="#cb6-132"></a><span class="in">```</span></span>
+<span id="cb6-133"><a href="#cb6-133"></a></span>
+<span id="cb6-134"><a href="#cb6-134"></a>Once the webpage is loaded, we can retrieve data using the CSS selectors we specified earlier. The following code retrieves the article titles:</span>
+<span id="cb6-135"><a href="#cb6-135"></a></span>
+<span id="cb6-136"><a href="#cb6-136"></a><span class="in">```{r html_elements_text}</span></span>
+<span id="cb6-137"><a href="#cb6-137"></a><span class="co"># Retrieve and inspect article titles</span></span>
+<span id="cb6-138"><a href="#cb6-138"></a>article_titles <span class="ot">&lt;-</span> nih <span class="sc">|&gt;</span></span>
+<span id="cb6-139"><a href="#cb6-139"></a>    <span class="fu">html_elements</span>(<span class="st">".thumbnail-teaser__heading"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-140"><a href="#cb6-140"></a>    <span class="fu">html_text</span>()</span>
+<span id="cb6-141"><a href="#cb6-141"></a><span class="fu">head</span>(article_titles)</span>
+<span id="cb6-142"><a href="#cb6-142"></a><span class="in">```</span></span>
+<span id="cb6-143"><a href="#cb6-143"></a></span>
+<span id="cb6-144"><a href="#cb6-144"></a>**Exercise:** Our goal is to get article titles, publication dates, and abstract text for news releases across several pages of results. </span>
+<span id="cb6-145"><a href="#cb6-145"></a></span>
+<span id="cb6-146"><a href="#cb6-146"></a>**Before doing any coding,** plan your approach. </span>
+<span id="cb6-147"><a href="#cb6-147"></a></span>
+<span id="cb6-148"><a href="#cb6-148"></a><span class="ss">- </span>What functions will you write? </span>
+<span id="cb6-149"><a href="#cb6-149"></a>function to read over website text and scrape several pages article titles, publication dates, and abstract text and then create df with tibble. function with for loop that saves each page of info</span>
+<span id="cb6-150"><a href="#cb6-150"></a></span>
+<span id="cb6-151"><a href="#cb6-151"></a><span class="ss">- </span>What arguments will they have? </span>
+<span id="cb6-152"><a href="#cb6-152"></a>html_elements, html_text. the path to the titles, publication dates, and abstract text across several pages tibble to create dataset with new variables</span>
+<span id="cb6-153"><a href="#cb6-153"></a></span>
+<span id="cb6-154"><a href="#cb6-154"></a><span class="ss">- </span>How will you use your functions? </span>
+<span id="cb6-155"><a href="#cb6-155"></a></span>
+<span id="cb6-156"><a href="#cb6-156"></a>Consult with your peers and compare plans.</span>
+<span id="cb6-157"><a href="#cb6-157"></a></span>
+<span id="cb6-158"><a href="#cb6-158"></a>We want one final df with article titles, publication dates, and abstract text for news releases across several pages of results. To do this, we need an html_elements function that has the .description for each element we need and html_text to actually write this out.</span>
+<span id="cb6-159"><a href="#cb6-159"></a></span>
+<span id="cb6-160"><a href="#cb6-160"></a></span>
+<span id="cb6-161"><a href="#cb6-161"></a>::: {.callout-tip title="Stop to reflect"}</span>
+<span id="cb6-162"><a href="#cb6-162"></a>Write a few observations about your comfort/confidence in this planning exercise. As you proceed through the implementation of this plan in the next steps, make notes about any places you struggled, were uncertain, or benefited from peer input.</span>
+<span id="cb6-163"><a href="#cb6-163"></a>:::</span>
+<span id="cb6-164"><a href="#cb6-164"></a></span>
+<span id="cb6-165"><a href="#cb6-165"></a>**Exercise:** Carry out your plan to get the article title, publication date, and abstract text for the first 5 pages of news releases in a single data frame. You will need to write at least one function, and you will need iteration--Start with an appropriate <span class="in">`map()`</span> function from <span class="in">`purrr`</span>. If you have time, also try to use a <span class="in">`for`</span> loop instead.</span>
+<span id="cb6-166"><a href="#cb6-166"></a></span>
+<span id="cb6-167"><a href="#cb6-167"></a>Notes:</span>
+<span id="cb6-168"><a href="#cb6-168"></a></span>
+<span id="cb6-169"><a href="#cb6-169"></a><span class="ss">- </span>Mouse over the page buttons at the very bottom of the news home page to see what the URLs look like.</span>
+<span id="cb6-170"><a href="#cb6-170"></a><span class="ss">- </span>The abstract should not have the publication date--use <span class="in">`stringr`</span> and regular expressions to remove the publication date.</span>
+<span id="cb6-171"><a href="#cb6-171"></a><span class="ss">- </span>If the website has <span class="in">`Crawl-delay: x`</span> in its <span class="in">`robots.txt`</span>, include <span class="in">`Sys.sleep(x)`</span> in your function to respect that.</span>
+<span id="cb6-172"><a href="#cb6-172"></a><span class="ss">- </span>Recall that <span class="in">`bind_rows()`</span> from <span class="in">`dplyr`</span> and <span class="in">`list_rbind()`</span> from <span class="in">`purrr`</span> takes a list of data frames and stacks them on top of each other.</span>
+<span id="cb6-173"><a href="#cb6-173"></a></span>
+<span id="cb6-174"><a href="#cb6-174"></a></span>
+<span id="cb6-177"><a href="#cb6-177"></a><span class="in">```{r}</span></span>
+<span id="cb6-178"><a href="#cb6-178"></a>get_text <span class="ot">&lt;-</span> <span class="cf">function</span>(page, css_selector_path) {</span>
+<span id="cb6-179"><a href="#cb6-179"></a>  page <span class="sc">|&gt;</span> </span>
+<span id="cb6-180"><a href="#cb6-180"></a>    <span class="fu">html_elements</span>(css_selector_path) <span class="sc">|&gt;</span> </span>
+<span id="cb6-181"><a href="#cb6-181"></a>    <span class="fu">html_text</span>()</span>
+<span id="cb6-182"><a href="#cb6-182"></a>}</span>
+<span id="cb6-183"><a href="#cb6-183"></a></span>
+<span id="cb6-184"><a href="#cb6-184"></a>get_news_page <span class="ot">&lt;-</span> <span class="cf">function</span>(url) {</span>
+<span id="cb6-185"><a href="#cb6-185"></a>  page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb6-186"><a href="#cb6-186"></a>  article_titles <span class="ot">&lt;-</span> <span class="fu">get_text</span>(page, <span class="st">".thumbnail-teaser__heading"</span>)</span>
+<span id="cb6-187"><a href="#cb6-187"></a>  abstract_text <span class="ot">&lt;-</span> <span class="fu">get_text</span>(page, <span class="st">".thumbnail-teaser__description"</span>)</span>
+<span id="cb6-188"><a href="#cb6-188"></a>  </span>
+<span id="cb6-189"><a href="#cb6-189"></a>  <span class="fu">tibble</span>(<span class="at">title =</span> article_titles, <span class="at">date_abstract =</span> abstract_text) </span>
+<span id="cb6-190"><a href="#cb6-190"></a>}</span>
+<span id="cb6-191"><a href="#cb6-191"></a>  </span>
+<span id="cb6-192"><a href="#cb6-192"></a>scrape_x_pages_nih <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb6-193"><a href="#cb6-193"></a>  base_url <span class="ot">&lt;-</span> <span class="st">"https://www.nih.gov/news-events/news-releases"</span></span>
+<span id="cb6-194"><a href="#cb6-194"></a>  x <span class="ot">&lt;-</span> x<span class="dv">-1</span></span>
+<span id="cb6-195"><a href="#cb6-195"></a>  <span class="cf">for</span> (i <span class="cf">in</span> x) {</span>
+<span id="cb6-196"><a href="#cb6-196"></a>    page_url <span class="ot">&lt;-</span> <span class="st">"https://www.nih.gov/news-events/news-releases"</span> <span class="sc">+</span> <span class="st">"?page="</span> <span class="sc">+</span> <span class="st">"x"</span></span>
+<span id="cb6-197"><a href="#cb6-197"></a>    <span class="fu">get_news_page</span>(page_url)</span>
+<span id="cb6-198"><a href="#cb6-198"></a>    x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb6-199"><a href="#cb6-199"></a>  }</span>
+<span id="cb6-200"><a href="#cb6-200"></a>}</span>
+<span id="cb6-201"><a href="#cb6-201"></a>  </span>
+<span id="cb6-202"><a href="#cb6-202"></a>  </span>
+<span id="cb6-203"><a href="#cb6-203"></a><span class="in">```</span></span>
+<span id="cb6-204"><a href="#cb6-204"></a></span>
+<span id="cb6-205"><a href="#cb6-205"></a></span>
+<span id="cb6-206"><a href="#cb6-206"></a><span class="fu">## Example 2: NIH STEM Teaching Resources</span></span>
+<span id="cb6-207"><a href="#cb6-207"></a></span>
+<span id="cb6-208"><a href="#cb6-208"></a>Let's look at a more complex example with the <span class="co">[</span><span class="ot">NIH STEM Teaching Resources webpage</span><span class="co">](https://science.education.nih.gov/)</span>.</span>
+<span id="cb6-209"><a href="#cb6-209"></a></span>
+<span id="cb6-210"><a href="#cb6-210"></a><span class="ss">-  </span>Using Selector Gadget to select the resource titles can be tricky if we can only get one resource title at a time.</span>
+<span id="cb6-211"><a href="#cb6-211"></a><span class="ss">- </span>In Chrome, you can right click part of a web page and click "Inspect". This opens up Chrome's Developer Tools. Mousing over the HTML in the top right panel highlights the corresponding part of the web page.</span>
+<span id="cb6-212"><a href="#cb6-212"></a><span class="ss">    - </span>For non-Chrome browsers, use the Help menu to search for Developer Tools.</span>
+<span id="cb6-213"><a href="#cb6-213"></a></span>
+<span id="cb6-214"><a href="#cb6-214"></a>The underlying HTML used to create a web page is also called the page **source code** or **page source**. </span>
+<span id="cb6-215"><a href="#cb6-215"></a></span>
+<span id="cb6-216"><a href="#cb6-216"></a>We learn from this that the resource titles are <span class="in">`&lt;h4&gt;`</span> headings that have the class <span class="in">`resource-title`</span>. </span>
+<span id="cb6-217"><a href="#cb6-217"></a></span>
+<span id="cb6-218"><a href="#cb6-218"></a>We can infer from this that <span class="in">`.resource-title`</span> would be the CSS selector for the resource titles.</span>
+<span id="cb6-219"><a href="#cb6-219"></a><span class="fu">## Done!</span></span>
+<span id="cb6-220"><a href="#cb6-220"></a></span>
+<span id="cb6-221"><a href="#cb6-221"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
