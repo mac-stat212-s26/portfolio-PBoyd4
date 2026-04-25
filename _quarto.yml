@@ -94,8 +94,8 @@ book:
 
     - part: "Extras"
       chapters:
-      - extra/extra-sample1.qmd
-      - extra/extra-sample2.qmd
+      - extra/web-scraping-research.qmd
+      - extra/sql-research.qmd
 
 
 
