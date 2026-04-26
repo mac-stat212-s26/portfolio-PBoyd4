@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>TidyTuesday Sample 1 – COMP/STAT212 Portfolio</title>
+<title>SQL Research – COMP/STAT212 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../tt/2025-07-15.html" rel="next">
-<link href="../pv/pv-01.html" rel="prev">
+<link href="../extra/web-scraping-research.html" rel="prev">
 <script src="../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -304,7 +303,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tt/2025-07-08.html">TidyTuesday</a></li><li class="breadcrumb-item"><a href="../tt/2025-07-08.html"><span class="chapter-title">TidyTuesday Sample 1</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../extra/web-scraping-research.html">Extras</a></li><li class="breadcrumb-item"><a href="../extra/sql-research.html"><span class="chapter-title">SQL Research</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -372,7 +371,7 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tt/2025-07-08.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">TidyTuesday Sample 1</span></a>
+  <a href="../tt/2025-07-08.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -505,7 +504,7 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../extra/sql-research.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SQL Research</span></a>
+  <a href="../extra/sql-research.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">SQL Research</span></a>
   </div>
 </li>
       </ul>
@@ -522,9 +521,9 @@ cookieconsent.run({
 <main class="content column-page-right" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tt/2025-07-08.html">TidyTuesday</a></li><li class="breadcrumb-item"><a href="../tt/2025-07-08.html"><span class="chapter-title">TidyTuesday Sample 1</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../extra/web-scraping-research.html">Extras</a></li><li class="breadcrumb-item"><a href="../extra/sql-research.html"><span class="chapter-title">SQL Research</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">TidyTuesday Sample 1</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">SQL Research</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -541,7 +540,11 @@ cookieconsent.run({
 </header>
 
 
-<p>Add content here</p>
+<p><strong>Why SQL Exists</strong> As I was completing ICA 16, I became intrigued as to why SQL even existed, couldn’t you just use whatever programming language you were used to using to store data? SQL exists because as data became larger and more complex, there needed to be a <strong>standardized, efficient way to store, access, and manipulate structured data</strong>. Before SQL, interacting with databases required writing low-level code that specified <em>exactly how</em> to retrieve each record. SQL changed this by introducing a <strong>declarative approach</strong>, meaning you only specify <em>what</em> data you want—not how to get it. This made working with data far more accessible and efficient, especially as databases grew in size and complexity.</p>
+<p>Another key reason SQL exists is to manage <strong>relational databases</strong>, where data is organized into tables with relationships between them (like customers and orders). SQL provides a unified language to query across these relationships, insert new data, update records, and control access. Instead of building custom systems for every application, developers and analysts can rely on SQL as a <strong>universal interface</strong> for interacting with data. This standardization became so important that SQL was adopted as an official standard by organizations like ANSI and ISO, helping ensure consistency across different database systems.</p>
+<p>From the AWS perspective, SQL also exists because organizations need a reliable way to <strong>store and retrieve data at scale</strong>. Databases powered by SQL allow systems to efficiently handle large amounts of structured information while maintaining performance, security, and reliability. ([AWS Documentation][2]) Whether it’s tracking users, transactions, or analytics data, SQL enables systems to quickly answer questions and power applications.</p>
+<p>The biggest takeaway is that SQL isn’t just a programming language—it’s a <strong>bridge between humans and data systems</strong>. It simplifies complex data interactions into readable queries, making it essential for everything from business analytics to backend development. Connecting this to your ICA, SQL exists for a similar reason as advanced web scraping tools: <strong>to abstract away complexity</strong>. Just like APIs simplify scraping, SQL simplifies data access—turning what would be tedious, low-level operations into something scalable, reusable, and efficient.</p>
+<p>https://aws.amazon.com/what-is/sql/ “What is SQL (Structured Query Language)?”</p>
 
 
 <!-- -->
@@ -1018,21 +1021,27 @@ cookieconsent.run({
   </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="../pv/pv-01.html" class="pagination-link" aria-label="Professional Viz">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Professional Viz</span></span>
+      <a href="../extra/web-scraping-research.html" class="pagination-link" aria-label="Web Scraping research(additional tools)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Web Scraping research(additional tools)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../tt/2025-07-15.html" class="pagination-link" aria-label="TidyTuesday Sample 2">
-        <span class="nav-page-text"><span class="chapter-title">TidyTuesday Sample 2</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "TidyTuesday Sample 1"</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "SQL Research"</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">---</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>Add content here</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a>**Why SQL Exists**</span>
+<span id="cb1-6"><a href="#cb1-6"></a>As I was completing ICA 16, I became intrigued as to why SQL even existed, couldn't you just use whatever programming language you were used to using to store data? SQL exists because as data became larger and more complex, there needed to be a **standardized, efficient way to store, access, and manipulate structured data**. Before SQL, interacting with databases required writing low-level code that specified *exactly how* to retrieve each record. SQL changed this by introducing a **declarative approach**, meaning you only specify *what* data you want—not how to get it. This made working with data far more accessible and efficient, especially as databases grew in size and complexity.</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>Another key reason SQL exists is to manage **relational databases**, where data is organized into tables with relationships between them (like customers and orders). SQL provides a unified language to query across these relationships, insert new data, update records, and control access. Instead of building custom systems for every application, developers and analysts can rely on SQL as a **universal interface** for interacting with data. This standardization became so important that SQL was adopted as an official standard by organizations like ANSI and ISO, helping ensure consistency across different database systems.</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>From the AWS perspective, SQL also exists because organizations need a reliable way to **store and retrieve data at scale**. Databases powered by SQL allow systems to efficiently handle large amounts of structured information while maintaining performance, security, and reliability. (<span class="co">[</span><span class="ot">AWS Documentation</span><span class="co">][2]</span>) Whether it’s tracking users, transactions, or analytics data, SQL enables systems to quickly answer questions and power applications.</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>The biggest takeaway is that SQL isn’t just a programming language—it’s a **bridge between humans and data systems**. It simplifies complex data interactions into readable queries, making it essential for everything from business analytics to backend development. Connecting this to your ICA, SQL exists for a similar reason as advanced web scraping tools: **to abstract away complexity**. Just like APIs simplify scraping, SQL simplifies data access—turning what would be tedious, low-level operations into something scalable, reusable, and efficient.</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>https://aws.amazon.com/what-is/sql/ "What is SQL (Structured Query Language)?"</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
