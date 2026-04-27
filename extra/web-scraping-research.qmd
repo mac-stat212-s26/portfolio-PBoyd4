@@ -1,0 +1,24 @@
+---
+title: "Web Scraping research(additional tools)"
+---
+
+**Summary:**
+After exploring more advanced tools, the [ScrapingDog article](https://www.scrapingdog.com/blog/best-web-scraping-tools/?utm_source=chatgpt.com) highlights how modern web scraping has moved far beyond simple CSS selector extensions. Instead of manually identifying elements in a browser, many of the top tools—like Scrapingdog, ScraperAPI, ScrapingBee, ZenRows, and Firecrawl—are **API-based platforms** that handle the hardest parts of scraping for you. These include bypassing CAPTCHAs, rotating IP addresses, rendering JavaScript-heavy pages, and returning structured data like JSON.
+
+The article evaluates these tools based on real-world performance (Amazon, Google, etc.), focusing on metrics like success rate, speed, cost, and scalability. Scrapingdog stands out with near-perfect reliability and low cost per request, while others like Firecrawl are fast but expensive, and ZenRows shows inconsistency across sites. ([scrapingdog][2]) The key difference from CSS selector tools is that these platforms don’t just *extract data*—they **ensure you can actually access it reliably at scale**, which is the real bottleneck in modern scraping.
+
+---
+
+**Comparison to CSS Selectors + Biggest Takeaways:**
+The biggest realization is that CSS selector tools (like the one used in the web scraping ICA) only solve the **last step of scraping—parsing the page**. They assume you already have clean HTML. But modern websites are built to prevent that, using JavaScript, rate limits, and anti-bot systems. The tools in this article solve a *different and more important problem*: **getting the data in the first place**. 
+
+Compared to CSS selector extensions:
+
+* CSS tools = simple, manual, good for small/static pages
+* API tools = automated, scalable, handle blocking + dynamic content
+
+The biggest takeaway is that **web scraping is really a pipeline**, not a single technique. These newer tools handle fetching (getting unblocked data), while selectors or libraries handle parsing. Another key insight is scalability: what feels “clunky” about CSS selectors is actually a limitation of working manually—these APIs remove that friction by automating everything from proxies to retries. The article shows that the “best” tool depends on your goal: cheap and reliable (Scrapingdog), flexible (ScraperAPI), or specialized use cases (ScrapingBee).
+
+Overall, this shifts my perspective: instead of asking “how do I select elements better?”, the more advanced question is **“how do I build a full scraping system that reliably gets and processes data?”**—and that’s where these tools become much more powerful than basic selector-based approaches.
+
+https://www.scrapingdog.com/blog/best-web-scraping-tools/ "5 Best Web Scraping Tools (Ranked By Performance, Stability & Price)"
