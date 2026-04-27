@@ -15,6 +15,7 @@ Pre class learnings(imported from the google doc that I used for the mindmap ove
 Paxton Boyd Mindmaps 
 
 1/30:
+
 - File organization is crucial for big projects, essential rules:
     - Minimum Folders: Include a data folder and a code folder named, eg,        code, scripts, or src.
     - Raw Data Integrity: Original data files should remain unaltered and        clearly labeled. Ideally, store them in a raw subfolder within data.
@@ -25,12 +26,15 @@ Paxton Boyd Mindmaps
 
 
 2/2: Adv Data Viz
+
 - Ggplot2 reference page for help with functions
 - Purpose of data visualizations: provide a clear message
 - Multiple data sets can be passed into a single plot
 
 
+
 2/6: Adv Spatial
+
 - CRS’s are a specific set of rules that tells software how coordinates relate to Earth
 - **Ellipsoid:** A smooth, math-based model of the Earth’s shape (a “lumpy potato shape”) used for mapping calculations.
 - **Datum:** The reference system that positions that ellipsoid relative to the real Earth (so coordinates line up consistently).
@@ -41,11 +45,13 @@ Paxton Boyd Mindmaps
 
 
 2/9: Adv data wrangling
+
 - Check types with class(), typeof(), str(), and glimpse() so you know what you’re actually manipulating.
 - Reorder and clean categories with fct_relevel(), fct_reorder(), fct_infreq() so plots/tables show factors in a meaningful order
 
 
 2/13: Adv data wrangling II
+
 - Stringr cheatsheet in bookmarks
 - . any character
 - \\d digit, \\w word char, \\s whitespace
@@ -56,6 +62,7 @@ Paxton Boyd Mindmaps
 
 
 2/18: Missing Data
+
 - **MCAR:** missingness is totally random (not related to any variables) → least problematic
 - **MAR:** missingness depends on observed variables (e.g., income missing more for younger people) → fixable with good modeling
 - **MNAR:** missingness depends on the missing value itself or unobserved factors (e.g., high income people skip income question) → hardest, can bias results even after typical fixes
@@ -63,12 +70,14 @@ Paxton Boyd Mindmaps
 
 
 2/23: functions
+
 - If you’ve copied and pasted 3 or more times -> make function
 - scope refers to the area of a program where a named object is recognized and can be used.
 - R uses lexical scoping, which means that the scope of a variable is determined by where it is created in the code.
 
 
 2/27: Base R
+
 - We have been using tidyverse, but Base R is the default set of packages installed with the R programming language
 - Extracting first element of a list, x: x[[1]]
 - Subsetting a vector x on base r: x[1:3]
@@ -76,6 +85,7 @@ Paxton Boyd Mindmaps
 
 
 3/2: Loops + iterations I
+
 - Iteration is what happens in for loops
 - Other iterations: across data frame columns, using map and walk(instead of a for loop)
 - Anonymous functions can be created for one time use and aren’t named/saved
@@ -83,6 +93,7 @@ Paxton Boyd Mindmaps
 
 
 3/6: Loops + Iterations II
+
 - Purrr is the tidyverse’s answer to apply functions for iteration
 - Workhorse of purr is lists(vectors, df, list) unlike dplyr(whose workhorse is the df)
 - A vector is a way of storing many individual elements (a single number or a single character or string) of the same type together in a single object,
@@ -91,6 +102,7 @@ Paxton Boyd Mindmaps
 - map function is one that applies the same action/function to every element of an object (e.g. each entry of a list or a vector, or each of the columns of a data frame)
 
 3/23: API
+
 - API(application programming interface) is a set of rules that enables different software applications to communicate with each other
 - JSON(JavaScript Object Notation) - The basic structures of JSON are:
     - A set of name/value pairs
@@ -103,6 +115,7 @@ Paxton Boyd Mindmaps
 
 
 3/25: API II
+
 - Simplification - process in where JSON arrays automatically get converted from a list into a more specific R class
 - The fromJSON function has 3 arguments which control the simplification process:
       - simplifyVector - JSON arrays containing primitives (strings,              numbers, booleans or null) simplify into an atomic vector
@@ -112,16 +125,18 @@ Paxton Boyd Mindmaps
 
 
 3/30: Web Scraping
+
 - Code can be used to extract info from websites
 - Each component(or element) of a website has a certain path that can be used to access it, which can be found through the selector gadget chrome extension(what we use)
 - You can group certain elements that have similarities
 - Every webpage is written in HTML — a nested set of tags. CSS selectors are patterns that let you target specific tags or groups of tags.
-- Tags like <h1>, <p>, <table>, <a> organize content
-- class and id attributes label specific elements
-- CSS selectors let you say 'grab all <p> inside a <div class=results>'
-- ‘rvest’ function helps us get data out of html and into R
+- Tags like `<h1>`, `<p>`, `<table>`, `<a>` organize content
+- `class` and `id` attributes label specific elements
+- CSS selectors let you say "grab all `<p>` inside a `<div class='results'>`"
+- `rvest` function helps us get data out of html and into R
 
 4/3: Databases and SQL
+
 - Can think of a database as a collection of tables that allows fast access
 - R - DBI(provides generic funcs to interact with dbs) 
 - DBMS(R package)(translates generic commands into specific ones for that db) 
@@ -133,6 +148,7 @@ Paxton Boyd Mindmaps
 
 
 4/8: effective viz
+
 - When preparing a viz, the main driver should be emotion
 - Study found that 63% of visualization viewers could remember a story, but only 5% could remember a specific statistic
 - Uncovering key insights is one skill and communicating them is another—both are equally critical to deriving value from the data your business is now amassing
@@ -142,10 +158,12 @@ Paxton Boyd Mindmaps
 
 
 4/10: Interactive viz
+
 - Sometimes interactivity can take away from the message or limit people from seeing the main point of a visualization, guidance is often necessary for effectiveness
 - Emotion should be the main concern when constructing a visualization
 
 4/15: Quality Control
+
 - What is the data story? - Happiness comes from many sources, some with more depth(lasting gratification) than others
 - What is effective? - The visualization is very effective, you can see the proportions and see some specific examples
 - What could be improved? - Maybe a little bit more analysis of the data itself, they didn’t go in depth
